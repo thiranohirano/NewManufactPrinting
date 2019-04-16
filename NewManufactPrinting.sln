@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewManufactPrinting", "NewManufactPrinting\NewManufactPrinting.csproj", "{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE9B747F-A69E-4803-98CE-930030B831A2}
+	EndGlobalSection
+EndGlobal

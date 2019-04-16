@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NewManufactPrinting.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AssemblyVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1.0.0.0</Value>
+    </Setting>
+    <Setting Name="BarcodeCOM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+    <Setting Name="LabelPrinterCOM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+    <Setting Name="IpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+    <Setting Name="Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
+    <Setting Name="CableDataCsvPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+    <Setting Name="ProductSetListCsvPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+    <Setting Name="ServerUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,176 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:NewManufactPrinting.Views"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="NewManufactPrinting.Views.Home"
+             mc:Ignorable="d" 
+             TextElement.FontSize="13"
+             d:DesignHeight="360" d:DesignWidth="720">
+    <UserControl.Resources>
+        <Thickness x:Key="TextBoxMargin1">3</Thickness>
+        <System:Double x:Key="ButtonFontSize1">18</System:Double>
+        <System:Double x:Key="ButtonFontSize2">22</System:Double>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <Binding Source="{StaticResource mwvm}"/>
+    </UserControl.DataContext>
+    <Viewbox Stretch="Uniform">
+        <Grid Height="360" Width="720">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="240"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <materialDesign:Card Grid.Row="0" Margin="5" Padding="-1,0,0,0">
+                    <Grid  >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:ColorZone Mode="PrimaryDark" VerticalAlignment="Stretch" Margin="0,-1,0,0">
+                            <materialDesign:PackIcon Kind="Qrcode" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Margin="5"/>
+                        </materialDesign:ColorZone>
+                        <Grid Grid.Column="1"  Margin="30,5,5,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBox materialDesign:HintAssist.Hint="受注番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" IsReadOnly="True" Grid.Row="0" Margin="{DynamicResource TextBoxMargin1}" Focusable="False" Text="{Binding OrderNumber}"/>
+                            <TextBox materialDesign:HintAssist.Hint="本数" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  IsReadOnly="True" Grid.Row="1" Margin="{DynamicResource TextBoxMargin1}" Focusable="False" Text="{Binding Quantity}"/>
+                            <TextBox x:Name="model_tbx" materialDesign:HintAssist.Hint="型式" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  Grid.Row="2" Grid.ColumnSpan="3" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox x:Name="lot_tbx" materialDesign:HintAssist.Hint="ロット番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  Grid.Row="2" Grid.Column="3" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Lot, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Grid  Grid.Column="3" Grid.RowSpan="2">
+                                <GroupBox Header="板番号">
+                                    <TextBlock  VerticalAlignment="Center" Grid.Row="0" FontSize="28" TextAlignment="Center" FontWeight="Bold" Text="{Binding Plate}"/>
+                                </GroupBox>
+                            </Grid>
+                            <TextBox materialDesign:HintAssist.Hint="社員名" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="{DynamicResource TextBoxMargin1}" FontSize="13" Focusable="False" Text="{Binding Member}"/>
+                        </Grid>
+                        <Button x:Name="clear_btn" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-20,5" >
+                            <materialDesign:PackIcon Kind="Eraser" Width="24" Height="24"/>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Row="2" Margin="5" Padding="-1,0,0,0" VerticalAlignment="Stretch">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:ColorZone Mode="PrimaryDark" VerticalAlignment="Stretch" Margin="0,-1,0,0">
+                            <StackPanel Margin="5" Orientation="Vertical" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Water" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="30"/>
+                                <TextBlock Text="インクジェット" FontSize="9" TextAlignment="Center" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </materialDesign:ColorZone>
+                        <Grid Grid.Column="1"  Margin="10,5,5,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Margin="3" Orientation="Vertical">
+                                <Label Content="印字内容" Padding="0" FontSize="12"/>
+                                <materialDesign:ColorZone Mode="Inverted">
+                                    <TextBlock  FontSize="14" TextAlignment="Center" Margin="5" Text="{Binding PrintingContent}"/>
+                                </materialDesign:ColorZone>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0">
+                                <materialDesign:Badged  BadgeColorZoneMode="PrimaryLight" Margin="10" Badge="{Binding PrintingTimes}">
+                                    <Button x:Name="printing_btn" Focusable="False" Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Content="印字開始" Width="120" IsEnabled="{Binding PrintingButtonEnabled}" FontSize="{DynamicResource ButtonFontSize1}"/>
+                                </materialDesign:Badged>
+                                <materialDesign:Badged BadgeColorZoneMode="PrimaryLight" Margin="10" Badge="{Binding RedoPrintingTimes}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                    <Button FontSize="{DynamicResource ButtonFontSize1}" Focusable="False" Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Content="{Binding RedoPrintingButtonText}" Width="120" IsEnabled="{Binding RedoPrintingButtonEnabled}" Command="{Binding RedoPrint}"/>
+
+                                    <!--<StackPanel Orientation="Horizontal" Width="100">
+
+                                    <ToggleButton Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" VerticalAlignment="Center" IsChecked="{Binding RePrintMode}"/>
+                                    <TextBlock Text="{Binding RePrintButtonText}" VerticalAlignment="Center"/>
+                                </StackPanel>-->
+                                </materialDesign:Badged>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </materialDesign:Card>
+            </Grid>
+            <materialDesign:Card Grid.Column="1" Grid.Row="0" Margin="5" Padding="-1,0,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:ColorZone Mode="PrimaryDark" VerticalAlignment="Stretch" Margin="0,-1,0,0">
+                        <materialDesign:PackIcon Kind="Clock" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Margin="5"/>
+                    </materialDesign:ColorZone>
+                    <Grid Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding StopWatchText}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1"  Orientation="Vertical">
+                            <Button Content="{Binding StartStopButtonText}" Focusable="False"  HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchStartStop, Mode=OneWay}" Width="84" />
+                            <Button Content="RESET"  Focusable="False" HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchReset, Mode=OneWay}" Width="84" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Column="1" Grid.Row="1" Margin="5" Padding="-1,0,0,0" VerticalAlignment="Stretch">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:ColorZone Mode="PrimaryDark" VerticalAlignment="Stretch" Margin="0,-1,0,0">
+                        <StackPanel Margin="5" Orientation="Vertical" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Printer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="30"/>
+                            <TextBlock Text="ラベル" FontSize="9" TextAlignment="Center"/>
+                        </StackPanel>
+                    </materialDesign:ColorZone>
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="印刷枚数" FontSize="12"/>
+                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" Text="{Binding LabelPrintingQuantity}"/>
+                            <StackPanel Grid.Column="1">
+                                <CheckBox Content="枚数変更" Margin="5,3" IsChecked="{Binding EditEnable}"/>
+                                <Button Margin="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding EditEnable}" Command="{Binding Plus}">
+                                    <materialDesign:PackIcon Kind="ArrowUpBoldOutline" Width="20" Height="20"/>
+                                </Button>
+                                <Button Margin="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding EditEnable}" Command="{Binding Minus}">
+                                    <materialDesign:PackIcon Kind="ArrowDownBoldOutline" Width="20" Height="20"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                        <materialDesign:Badged BadgeColorZoneMode="PrimaryLight" Margin="10" HorizontalAlignment="Center" Badge="{Binding LabelPrintingTimes}">
+                            <Button x:Name="label_print_btn" Content="ラベル印刷" FontSize="{DynamicResource ButtonFontSize1}" Focusable="False" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Width="120" IsEnabled="{Binding LabelPrintingButtonEnabled}"/>
+                        </materialDesign:Badged>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+            <Button x:Name="complete_btn" Grid.Column="1" Grid.Row="2" Margin="10" FontSize="{DynamicResource ButtonFontSize2}" Height="60" Style="{StaticResource MaterialDesignRaisedAccentButton}" materialDesign:ShadowAssist.ShadowDepth="Depth3" IsEnabled="{Binding CompleteButtonEnabled}" Content="作業完了" VerticalAlignment="Top"/>
+        </Grid>
+    </Viewbox>
+</UserControl>
