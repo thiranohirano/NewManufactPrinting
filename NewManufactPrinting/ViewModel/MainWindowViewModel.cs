@@ -1,9 +1,12 @@
 ﻿using ManufactApiClient.Models;
 using MaterialDialog;
 using MyUtilityMethods;
+using NewManufactPrinting.BufferedLog;
+using NewManufactPrinting.BufferedLog.Entities;
 using NewManufactPrinting.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
@@ -52,7 +55,7 @@ namespace NewManufactPrinting
                 {
                     PrintingButtonEnabled = true;
                     RedoPrintingButtonEnabled = true;
-                    LabelPrintButtonEnabled = true;
+                    LabelPrintingButtonEnabled = true;
                 }
                 this.SetProperty(ref _OrderNumber, value);
             }
@@ -74,7 +77,7 @@ namespace NewManufactPrinting
                 {
                     PrintingButtonEnabled = true;
                     RedoPrintingButtonEnabled = true;
-                    LabelPrintButtonEnabled = true;
+                    LabelPrintingButtonEnabled = true;
                 }
                 this.SetProperty(ref _Member, value);
             }
@@ -243,11 +246,11 @@ namespace NewManufactPrinting
             }
         }
 
-        private bool _LabelPrintButtonEnabled = false;
-        public bool LabelPrintButtonEnabled
+        private bool _LabelPrintingButtonEnabled = false;
+        public bool LabelPrintingButtonEnabled
         {
-            get { return _LabelPrintButtonEnabled; }
-            set { this.SetProperty(ref _LabelPrintButtonEnabled, value); }
+            get { return _LabelPrintingButtonEnabled; }
+            set { this.SetProperty(ref _LabelPrintingButtonEnabled, value); }
         }
 
         private int? _LabelPrintingTimes;
@@ -299,7 +302,7 @@ namespace NewManufactPrinting
             {
                 if(value == 0)
                 { 
-                    LabelPrintButtonEnabled = false;
+                    LabelPrintingButtonEnabled = false;
                 }
                 this.SetProperty(ref _LabelPrintingQuantity, value);
             }
@@ -442,6 +445,67 @@ namespace NewManufactPrinting
             set { this.SetProperty(ref _ConnectStateColor, value); }
         }
 
+        private bool _InkJetIsConnect = false;
+        public bool InkJetIsConnect
+        {
+            get { return _InkJetIsConnect; }
+            set
+            {
+                InkJetConnectState = value ? "接続成功" : "接続エラー";
+                InkJetConnectStateColor = value ? Brushes.LightGreen : Brushes.Red;
+                this.SetProperty(ref _InkJetIsConnect, value);
+            }
+        }
+
+        private string _InkJetConnectState = "接続エラー";
+        public string InkJetConnectState
+        {
+            get { return _InkJetConnectState; }
+            set { this.SetProperty(ref _InkJetConnectState, value); }
+        }
+
+        private Brush _InkJetConnectStateColor = Brushes.Red;
+        public Brush InkJetConnectStateColor
+        {
+            get { return _InkJetConnectStateColor; }
+            set { this.SetProperty(ref _InkJetConnectStateColor, value); }
+        }
+
+        private ObservableCollection<PrintingLog> _BufferedPrintingLogs = new ObservableCollection<PrintingLog>();
+        public ObservableCollection<PrintingLog> BufferedPrintingLogs
+        {
+            get { return _BufferedPrintingLogs; }
+            set {
+                int? count = null;
+                if(value != null)
+                {
+                    if(value.Count > 0)
+                    {
+                        count = value.Count;
+                    }
+                }
+                BufferedPrintingLogsLength = count;
+                BufferedLoggingButtonEnabled = count == null ? false : true;
+                this.SetProperty(ref _BufferedPrintingLogs, value);
+            }
+        }
+
+        private int? _BufferedPrintingLogsLength;
+        public int? BufferedPrintingLogsLength
+        {
+            get { return _BufferedPrintingLogsLength; }
+            set { this.SetProperty(ref _BufferedPrintingLogsLength, value); }
+        }
+
+        private bool _BufferedLoggingButtonEnabled = false;
+        public bool BufferedLoggingButtonEnabled
+        {
+            get { return _BufferedLoggingButtonEnabled; }
+            set { this.SetProperty(ref _BufferedLoggingButtonEnabled, value); }
+        }
+
+        public string[] ServerUrls { get { return new string[] { "http://192.168.100.50/", "http://192.168.100.51/" }; } }
+
         private const string START_TEXT = "START";
         private const string STOP_TEXT = "STOP";
         private const string STOPWATCH_RESET_TEXT = "00:00:00";
@@ -450,6 +514,7 @@ namespace NewManufactPrinting
         private const string PRODUCT_SET_LIST_CSV_FILE = "セット品型式リスト.csv";
         private MainWindow mainWindow;
         private ManufactApiConnect.CablePrintingManufactApiConnect manufactApiConnect;
+        private PrintingLogConnect printingLogConnect;
         private Stopwatch stopwatch = new Stopwatch();
         public SerialPort BarcodeSerialPort = new SerialPort(SERIALPORT_NONE); //バーコードリーダー通信シリアルポート
         public SerialPort LabelPrinterSerialPort = new SerialPort(SERIALPORT_NONE); //ラベルプリンター通信シリアルポート
@@ -479,6 +544,7 @@ namespace NewManufactPrinting
         public MainWindowViewModel()
         {
             mainWindow = (MainWindow)Application.Current.MainWindow as MainWindow;
+            printingLogConnect = new PrintingLogConnect();
             RedoPrint = new DelegateCommand((o) =>
             {
                 RedoPrintingMode = !RedoPrintingMode;
@@ -626,9 +692,8 @@ namespace NewManufactPrinting
             Console.WriteLine(manufactApiConnect.IsConnect());
         }
 
-        public async Task WriteCablePrintingLog()
+        public async Task WriteCablePrintingLog(DateTime created)
         {
-            DateTime created = DateTime.Now;
             ManufactLog manufactLog = new ManufactLog()
             {
                 created = created,
@@ -643,6 +708,31 @@ namespace NewManufactPrinting
             IsConnect = await manufactApiConnect.WriteCablePrintingLog(BaseInfoLog, manufactLog, cablePrintingLog, CableNumber);
         }
 
+        public async Task WriteBufferedLog(PrintingLog printingLog)
+        {
+            BaseInfoLog baseInfoLog = new BaseInfoLog()
+            {
+                order_number = printingLog.OrderNumber,
+                order_date = printingLog.OrderDate,
+                delivery_date = printingLog.DeliveryDate,
+                customer = printingLog.Customer,
+                model = printingLog.Model,
+                quantity = printingLog.Quantity,
+            };
+            ManufactLog manufactLog = new ManufactLog()
+            {
+                created = printingLog.Created,
+                member = printingLog.Member
+            };
+            CablePrintingLog cablePrintingLog = new CablePrintingLog()
+            {
+                printing_times = printingLog.PrintingTimes,
+                redo_times = printingLog.RedoTimes,
+                label_printing_times = printingLog.LabelPrintingTimes
+            };
+            IsConnect = await manufactApiConnect.WriteCablePrintingLog(baseInfoLog, manufactLog, cablePrintingLog, printingLog.CableNumber);
+        }
+
         /// <summary>
         /// 製品QRコードからデータ読み込み
         /// </summary>
@@ -650,8 +740,7 @@ namespace NewManufactPrinting
         public void ShowAQR(string aqr)
         {
             AQRCode = aqr;
-            string[] split_qr = new string[20];
-            split_qr = LogDefineMethod.leaveDelimiterSplitQR(aqr);
+            string[] split_qr = LogDefineMethod.leaveDelimiterSplitQR(aqr);
             var lbi = new BaseInfoLog();
             for (int i = 0; i < 6; i++)
             {
@@ -842,6 +931,36 @@ namespace NewManufactPrinting
             RedoPrintingTimes = null;
             LabelPrintingTimes = null;
             Lot = string.Empty;
+        }
+
+        public void LoadPrintingLogs()
+        {
+            BufferedPrintingLogs = printingLogConnect.GetPrintingLogs();
+        }
+
+        public void AddPrintingLog(DateTime created)
+        {
+            var pl = new PrintingLog()
+            {
+                OrderNumber = BaseInfoLog.order_number,
+                OrderDate = BaseInfoLog.order_date,
+                DeliveryDate = BaseInfoLog.delivery_date,
+                Customer = BaseInfoLog.customer,
+                Model = BaseInfoLog.model,
+                Quantity = BaseInfoLog.quantity,
+                Created = created,
+                Member = Member,
+                PrintingTimes = PrintingTimes ?? 0,
+                RedoTimes = RedoPrintingTimes ?? 0,
+                LabelPrintingTimes = LabelPrintingTimes ?? 0,
+                CableNumber = CableNumber
+            };
+            printingLogConnect.AddPrintingLog(pl);
+        }
+
+        public void RemovePrintingLog(PrintingLog printingLog)
+        {
+            printingLogConnect.RemovePrintingLog(printingLog);
         }
     }
 }

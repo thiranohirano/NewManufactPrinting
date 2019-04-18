@@ -17,5 +17,18 @@ namespace NewManufactPrinting
             get { return (object)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
         }
+
+        public static readonly DependencyProperty BadgeProperty
+            = DependencyProperty.Register(
+                nameof(Badge),
+                typeof(object),
+                typeof(HamburgerMenuIconItem),
+                new PropertyMetadata(default(object)));
+
+        public object Badge
+        {
+            get { return (object)GetValue(BadgeProperty); }
+            set { SetValue(BadgeProperty, value); }
+        }
     }
 }

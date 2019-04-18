@@ -18,8 +18,11 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using ManufactApiClient.Models;
+using MaterialDesignThemes.Wpf;
 using MaterialDialog;
 using MyUtilityMethods;
+using NewManufactPrinting.BufferedLog.Entities;
+using NewManufactPrinting.Views;
 
 namespace NewManufactPrinting
 {
@@ -43,6 +46,7 @@ namespace NewManufactPrinting
             home_view.printing_btn.Click += Print_button_Click;
             home_view.label_print_btn.Click += LabelPrint_button_Click;
             home_view.complete_btn.Click += Complete_button_Click;
+            buffered_logs_view.buffered_logging_btn.Click += Buffered_logging_btn_Click;
         }
 
         private async void MainMetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -62,9 +66,9 @@ namespace NewManufactPrinting
             string api_url = "NONE";
             if (Properties.Settings.Default.ServerUrl == "NONE")
             {
-                //bool? re = (bool?)await DialogHostEx.ShowDialog(this, new StartUp());
-                //if (re != null && re == true)
-                //{
+                bool? re = (bool?)await DialogHostEx.ShowDialog(this, new StartUp());
+                if (re != null && re == true)
+                {
                     if (mwvm.ServerUrl != string.Empty)
                     {
                         api_url = mwvm.ServerUrl;
@@ -78,7 +82,7 @@ namespace NewManufactPrinting
                                 Properties.Settings.Default.ServerUrl = api_url;
                                 Properties.Settings.Default.Save();
 #endif
-                //}
+                }
             }
 
 #if !DEBUG
@@ -141,6 +145,62 @@ namespace NewManufactPrinting
             mwvm.CloseLabelPrinterSerialPort();
             inkJetPrinter.Close();
         }
+        /// <summary>
+        /// 再接続メニューボタンのクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Reconnect_mi_Click(object sender, RoutedEventArgs e)
+        {
+            IsReadStateAQR = true;
+            await ConnectServer(reset: false);
+            if (mwvm.IsConnect)
+            {
+                await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Info", "接続成功しました。");
+            }
+            IsReadStateAQR = false;
+        }
+
+        /// <summary>
+        /// 環境設定メニューボタンのクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Env_setting_mi_Click(object sender, RoutedEventArgs e)
+        {
+            bool? re = (bool?)await DialogHostEx.ShowDialog(this, new StartUp());
+            if (re != null && re == true)
+            {
+                string api_url;
+                if (mwvm.ServerUrl != string.Empty)
+                {
+                    api_url = mwvm.ServerUrl;
+                }
+                else
+                {
+                    api_url = "NONE";
+                }
+                Console.WriteLine(mwvm.ServerUrl);
+#if !DEBUG
+                    Properties.Settings.Default.ServerUrl = api_url;
+                    Properties.Settings.Default.Save();
+#endif
+                try
+                {
+                    mwvm.IsConnect = false;
+                    mwvm.SetApiServer(api_url);
+                    await ConnectServer(reset: false);
+                }
+                catch (Exception)
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Error", "無効なURLです。");
+                }
+                if (mwvm.IsConnect)
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Info", "接続成功しました。");
+                }
+            }
+        }
 
         /// <summary>
         /// 印字開始
@@ -172,6 +232,10 @@ namespace NewManufactPrinting
             {
                 ConfirmPrintEndTimer.Start();
             }
+            else
+            {
+                mwvm.PrintingTimes = inkJetPrinter.GetPrintTimes();
+            }
         }
 
         /// <summary>
@@ -192,16 +256,30 @@ namespace NewManufactPrinting
         private async void Complete_button_Click(object sender, RoutedEventArgs e)
         {
             MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "ロギング中...");
-            await mwvm.WriteCablePrintingLog();
+            DateTime created = DateTime.Now;
+            created = created.AddTicks(-(created.Ticks % TimeSpan.TicksPerSecond));
+            await mwvm.WriteCablePrintingLog(created);
 
             if (mwvm.IsConnect == false)
-            {　　
+            {
                 //ロギングに失敗した場合
                 //MessageBox.Show("ロギングに失敗しました。内部バッファにデータを保存します。");
                 //Googleにアクセスできないときの処理
+                controller.Close();
+                await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Caution", "ロギングに失敗しました\n内部バッファにデータを保存します");
+                controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "保存中...");
+                await Task.Run(() =>
+                {
+                    mwvm.AddPrintingLog(created);
+                });
+                await Task.Run(() =>
+                {
+                    mwvm.LoadPrintingLogs();
+                });
             }
 
             controller.setMessage("完了処理中です...");
+            await Task.Delay(2000);
             //表示データと取得データのクリア
             await DoClearTask();
             controller.Close();
@@ -266,6 +344,34 @@ namespace NewManufactPrinting
             }
         }
 
+        private async void Buffered_logging_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await DoBufferedLogging();
+        }
+
+        private async Task DoBufferedLogging()
+        {
+            MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "バッファロギング中...");
+
+            foreach (var item in mwvm.BufferedPrintingLogs)
+            {
+                await mwvm.WriteBufferedLog(item);
+                if (!mwvm.IsConnect)
+                {
+                    break;
+                }
+                else
+                {
+                    mwvm.RemovePrintingLog(item);
+                }
+            }
+            await Task.Run(() =>
+            {
+                mwvm.LoadPrintingLogs();
+            });
+            controller.Close();
+        }
+
         //QRコードを受信したときの処理
         private async void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -305,12 +411,20 @@ namespace NewManufactPrinting
             {
                 mwvm.ResetAllQRInfo();
             }
-            var controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "Now Loading...");
+            var controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "サーバー接続中...");
             await mwvm.LoadLogClasses();
+            controller.setMessage("バッファデータ確認中...");
+            await Task.Run(() =>
+            {
+                mwvm.LoadPrintingLogs();
+            });
             controller.Close();
             if (!mwvm.IsConnect)
             {
                 await ShowDisconnectDialog();
+            } else if(mwvm.BufferedPrintingLogsLength > 0)
+            {
+                await DoBufferedLogging();
             }
         }
 
@@ -326,6 +440,7 @@ namespace NewManufactPrinting
                 success = inkJetPrinter.Connect();
             });
             controller.Close();
+            mwvm.InkJetIsConnect = success;
             if(!success)
             {
                 await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Warning", "インクジェットプリンターに接続できませんでした");
@@ -381,6 +496,7 @@ namespace NewManufactPrinting
 
         private async Task DoClearTask()
         {
+            Console.WriteLine("DoClear");
             await Task.Run(() =>
             {
                 //印字データ破棄の送信
@@ -467,7 +583,7 @@ namespace NewManufactPrinting
         /// <returns></returns>
         private async Task ShowDisconnectDialog()
         {
-            await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Warning", "サーバーへの接続が失敗しました。\nネットワーク接続の確認と\nサーバー管理者に確認してください。");
+            await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Warning", "サーバーへの接続が失敗しました\nネットワーク接続の確認と\nサーバー管理者に確認してください");
         }
 
         private delegate void ShowDelegate(string data);
@@ -507,7 +623,7 @@ namespace NewManufactPrinting
 #if DEBUG
             if (e.Key == System.Windows.Input.Key.F6)
             {
-                ReadDebug("RORANI,A,000000-2,2013/03/11,2013/03/13,ひらの,DXCAB-CY(4M),5,BBBBBBBBBBBBBBB,1,10,0,0,0,0,あああああああ注釈だよおおおおおお\r\n");
+                ReadDebug("RORANI,A,000000-8,2019/04/18,2019/04/19,ひらの,DXCAB-CY(4M),3,BBBBBBBBBBBBBBB,1,10,0,0,0,0,あああああああ注釈だよおおおおおお\r\n");
                 mwvm.Member = "平野卓次";
                 mwvm.LabelPrintingTimes = 5;
                 isDebug = true;

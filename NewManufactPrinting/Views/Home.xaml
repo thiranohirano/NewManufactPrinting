@@ -156,10 +156,10 @@
                             <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" Text="{Binding LabelPrintingQuantity}"/>
                             <StackPanel Grid.Column="1">
                                 <CheckBox Content="枚数変更" Margin="5,3" IsChecked="{Binding EditEnable}"/>
-                                <Button Margin="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding EditEnable}" Command="{Binding Plus}">
+                                <Button Margin="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" Focusable="False" IsEnabled="{Binding EditEnable}" Command="{Binding Plus}">
                                     <materialDesign:PackIcon Kind="ArrowUpBoldOutline" Width="20" Height="20"/>
                                 </Button>
-                                <Button Margin="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding EditEnable}" Command="{Binding Minus}">
+                                <Button Margin="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" Focusable="False" IsEnabled="{Binding EditEnable}" Command="{Binding Minus}">
                                     <materialDesign:PackIcon Kind="ArrowDownBoldOutline" Width="20" Height="20"/>
                                 </Button>
                             </StackPanel>
@@ -170,7 +170,7 @@
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>
-            <Button x:Name="complete_btn" Grid.Column="1" Grid.Row="2" Margin="10" FontSize="{DynamicResource ButtonFontSize2}" Height="60" Style="{StaticResource MaterialDesignRaisedAccentButton}" materialDesign:ShadowAssist.ShadowDepth="Depth3" IsEnabled="{Binding CompleteButtonEnabled}" Content="作業完了" VerticalAlignment="Top"/>
+            <Button x:Name="complete_btn" Grid.Column="1" Grid.Row="2" Margin="10" Focusable="False" FontSize="{DynamicResource ButtonFontSize2}" Height="60" Style="{StaticResource MaterialDesignRaisedAccentButton}" materialDesign:ShadowAssist.ShadowDepth="Depth3" IsEnabled="{Binding CompleteButtonEnabled}" Content="作業完了" VerticalAlignment="Top"/>
         </Grid>
     </Viewbox>
 </UserControl>
