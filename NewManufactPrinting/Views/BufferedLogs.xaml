@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:NewManufactPrinting.Views"
              mc:Ignorable="d" 
+             TextElement.FontFamily="Meiryo UI"
              TextElement.FontSize="13"
              DataContext="{Binding Source={StaticResource mwvm}}"
              d:DesignHeight="360" d:DesignWidth="720">

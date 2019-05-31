@@ -6,12 +6,14 @@
         xmlns:local="clr-namespace:NewManufactPrinting"
         xmlns:converter="clr-namespace:NewManufactPrinting.Converters"
         xmlns:views="clr-namespace:NewManufactPrinting.Views"
+        xmlns:menuItems="clr-namespace:NewManufactPrinting.MenuItems"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         GlowBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontFamily="Meiryo UI"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"      
         Background="{DynamicResource MaterialDesignPaper}"
@@ -19,7 +21,7 @@
         Title="{Binding Title}" Height="430" Width="770" Loaded="MainMetroWindow_Loaded" 
         d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModel}}" TitleCaps="False" Closing="MainMetroWindow_Closing" PreviewKeyDown="MainMetroWindow_PreviewKeyDown" >
     <Controls:MetroWindow.Resources>
-        <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type local:HamburgerMenuIconItem}">
+        <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type menuItems:HamburgerMenuIconItem}">
             <Grid Height="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
@@ -91,33 +93,33 @@
                     <!--  Items  -->
                     <Controls:HamburgerMenu.ItemsSource>
                         <Controls:HamburgerMenuItemCollection>
-                            <local:HamburgerMenuIconItem Icon="{materialDesign:PackIcon Kind=Home,Size=22}" Label="HOME" >
-                                <local:HamburgerMenuIconItem.Tag>
+                            <menuItems:HamburgerMenuIconItem Icon="{materialDesign:PackIcon Kind=Home,Size=22}" Label="HOME" >
+                                <menuItems:HamburgerMenuIconItem.Tag>
                                     <views:Home x:Name="home_view" />
-                                </local:HamburgerMenuIconItem.Tag>
-                            </local:HamburgerMenuIconItem>
-                            
-                            <local:HamburgerMenuIconItem Icon="{materialDesign:PackIcon Kind=Buffer,Size=22}" Label="BUFFERED" Badge="{Binding BufferedPrintingLogsLength}">
-                                <local:HamburgerMenuIconItem.Tag>
+                                </menuItems:HamburgerMenuIconItem.Tag>
+                            </menuItems:HamburgerMenuIconItem>
+
+                            <menuItems:HamburgerMenuIconItem Icon="{materialDesign:PackIcon Kind=Buffer,Size=22}" Label="BUFFERED" Badge="{Binding BufferedPrintingLogsLength}">
+                                <menuItems:HamburgerMenuIconItem.Tag>
                                     <views:BufferedLogs x:Name="buffered_logs_view"/>
-                                </local:HamburgerMenuIconItem.Tag>
-                            </local:HamburgerMenuIconItem>
+                                </menuItems:HamburgerMenuIconItem.Tag>
+                            </menuItems:HamburgerMenuIconItem>
                         </Controls:HamburgerMenuItemCollection>
                     </Controls:HamburgerMenu.ItemsSource>
 
                     <!--  Options  -->
                     <Controls:HamburgerMenu.OptionsItemsSource>
                         <Controls:HamburgerMenuItemCollection>
-                            <local:HamburgerMenuIconItem Icon="{materialDesign:PackIcon Kind=Settings,Size=22}" Label="SETTINGS">
-                                <local:HamburgerMenuIconItem.Tag>
+                            <menuItems:HamburgerMenuIconItem Icon="{materialDesign:PackIcon Kind=Settings,Size=22}" Label="SETTINGS">
+                                <menuItems:HamburgerMenuIconItem.Tag>
                                     <views:Settings x:Name="settings_view"/>
-                                </local:HamburgerMenuIconItem.Tag>
-                            </local:HamburgerMenuIconItem>
-                            <local:HamburgerMenuIconItem Label="About" Icon="{materialDesign:PackIcon Kind=Help,Size=22}" >
-                                <local:HamburgerMenuIconItem.Tag>
+                                </menuItems:HamburgerMenuIconItem.Tag>
+                            </menuItems:HamburgerMenuIconItem>
+                            <menuItems:HamburgerMenuIconItem Label="About" Icon="{materialDesign:PackIcon Kind=Help,Size=22}" >
+                                <menuItems:HamburgerMenuIconItem.Tag>
                                     <TextBlock Text="About" />
-                                </local:HamburgerMenuIconItem.Tag>
-                            </local:HamburgerMenuIconItem>
+                                </menuItems:HamburgerMenuIconItem.Tag>
+                            </menuItems:HamburgerMenuIconItem>
                         </Controls:HamburgerMenuItemCollection>
                     </Controls:HamburgerMenu.OptionsItemsSource>
 

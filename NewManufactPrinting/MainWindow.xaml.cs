@@ -46,6 +46,8 @@ namespace NewManufactPrinting
             home_view.printing_btn.Click += Print_button_Click;
             home_view.label_print_btn.Click += LabelPrint_button_Click;
             home_view.complete_btn.Click += Complete_button_Click;
+            home_view.model_tbx.TextChanged += Model_tb_TextChanged;
+            home_view.lot_tbx.TextChanged += Lot_tb_TextChanged;
             buffered_logs_view.buffered_logging_btn.Click += Buffered_logging_btn_Click;
         }
 
@@ -83,6 +85,10 @@ namespace NewManufactPrinting
                                 Properties.Settings.Default.Save();
 #endif
                 }
+            }
+            else
+            {
+                api_url = Properties.Settings.Default.ServerUrl;
             }
 
 #if !DEBUG
@@ -168,10 +174,16 @@ namespace NewManufactPrinting
         /// <param name="e"></param>
         private async void Env_setting_mi_Click(object sender, RoutedEventArgs e)
         {
+            string api_url = string.Empty;
+            if (Properties.Settings.Default.ServerUrl != "NONE")
+            {
+                api_url = Properties.Settings.Default.ServerUrl;
+            }
+
+            mwvm.ServerUrl = api_url;
             bool? re = (bool?)await DialogHostEx.ShowDialog(this, new StartUp());
             if (re != null && re == true)
             {
-                string api_url;
                 if (mwvm.ServerUrl != string.Empty)
                 {
                     api_url = mwvm.ServerUrl;
@@ -349,29 +361,6 @@ namespace NewManufactPrinting
             await DoBufferedLogging();
         }
 
-        private async Task DoBufferedLogging()
-        {
-            MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "バッファロギング中...");
-
-            foreach (var item in mwvm.BufferedPrintingLogs)
-            {
-                await mwvm.WriteBufferedLog(item);
-                if (!mwvm.IsConnect)
-                {
-                    break;
-                }
-                else
-                {
-                    mwvm.RemovePrintingLog(item);
-                }
-            }
-            await Task.Run(() =>
-            {
-                mwvm.LoadPrintingLogs();
-            });
-            controller.Close();
-        }
-
         //QRコードを受信したときの処理
         private async void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -428,6 +417,29 @@ namespace NewManufactPrinting
             }
         }
 
+        private async Task DoBufferedLogging()
+        {
+            MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "バッファロギング中...");
+
+            foreach (var item in mwvm.BufferedPrintingLogs)
+            {
+                await mwvm.WriteBufferedLog(item);
+                if (!mwvm.IsConnect)
+                {
+                    break;
+                }
+                else
+                {
+                    mwvm.RemovePrintingLog(item);
+                }
+            }
+            await Task.Run(() =>
+            {
+                mwvm.LoadPrintingLogs();
+            });
+            controller.Close();
+        }
+
         public async Task<bool> ConnectPrinter()
         {
             string result = string.Empty;
@@ -435,6 +447,7 @@ namespace NewManufactPrinting
             bool success = false;
             await Task.Run(() =>
             {
+                inkJetPrinter.Close();
                 inkJetPrinter.SetIpAddress(Properties.Settings.Default.IpAddress);
                 inkJetPrinter.SetPort(Properties.Settings.Default.Port);
                 success = inkJetPrinter.Connect();

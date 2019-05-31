@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
 
-namespace NewManufactPrinting
+namespace NewManufactPrinting.MenuItems
 {
     public class HamburgerMenuIconItem : HamburgerMenuItem
     {

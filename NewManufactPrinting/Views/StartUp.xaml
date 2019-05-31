@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:NewManufactPrinting.Views"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
+             TextElement.FontFamily="Meiryo UI"
              d:DataContext="{Binding Source={StaticResource mwvm}}"
              d:DesignHeight="250" d:DesignWidth="400">
     <UserControl.Resources>

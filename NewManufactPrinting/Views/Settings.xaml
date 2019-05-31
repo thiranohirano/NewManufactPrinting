@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:NewManufactPrinting.Views"
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="NewManufactPrinting.Views.Settings"
              mc:Ignorable="d" 
+             TextElement.FontFamily="Meiryo UI"
              TextElement.FontSize="12"
              d:DesignHeight="360" d:DesignWidth="720">
     <UserControl.Resources>
@@ -70,7 +71,7 @@
             <GroupBox Header="シリアルポート設定" Style="{DynamicResource MaterialDesignCardGroupBox}" Grid.Column="3" Margin="5">
                 <Grid VerticalAlignment="Top">
                     <StackPanel Margin="5">
-                        <TextBlock Text="バーコードリーダーCOMポート" FontSize="{DynamicResource LabelTextBlockFontSize}"/>
+                        <TextBlock Text="バーコードリーダーCOMポート" FontSize="{DynamicResource LabelTextBlockFontSize}" />
                         <ComboBox Margin="{StaticResource TextBoxMargin1}" SelectedValuePath="Key"  DisplayMemberPath="Value" ItemsSource="{Binding PortsTable}" SelectedValue="{Binding SelectBarcodeComPort}"/>
                         <Button Content="適用" HorizontalAlignment="Right" Focusable="False" Margin="{DynamicResource ButtonMargin1}" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding BarcodeSerialPortSettingApply}"/>
                         <TextBlock Text="ラベルプリンターCOMポート" FontSize="{DynamicResource LabelTextBlockFontSize}"/>

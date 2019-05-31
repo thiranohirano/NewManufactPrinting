@@ -7,11 +7,12 @@
              xmlns:local="clr-namespace:NewManufactPrinting.Views"
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="NewManufactPrinting.Views.Home"
              mc:Ignorable="d" 
+    TextElement.FontFamily="Meiryo UI"
              TextElement.FontSize="13"
              d:DesignHeight="360" d:DesignWidth="720">
     <UserControl.Resources>
         <Thickness x:Key="TextBoxMargin1">3</Thickness>
-        <System:Double x:Key="ButtonFontSize1">18</System:Double>
+        <System:Double x:Key="ButtonFontSize1">16</System:Double>
         <System:Double x:Key="ButtonFontSize2">22</System:Double>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -61,7 +62,7 @@
                             <TextBox x:Name="lot_tbx" materialDesign:HintAssist.Hint="ロット番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  Grid.Row="2" Grid.Column="3" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Lot, UpdateSourceTrigger=PropertyChanged}"/>
                             <Grid  Grid.Column="3" Grid.RowSpan="2">
                                 <GroupBox Header="板番号">
-                                    <TextBlock  VerticalAlignment="Center" Grid.Row="0" FontSize="28" TextAlignment="Center" FontWeight="Bold" Text="{Binding Plate}"/>
+                                    <TextBlock  VerticalAlignment="Center" Grid.Row="0" FontSize="26" TextAlignment="Center" FontWeight="Bold" Text="{Binding Plate}"/>
                                 </GroupBox>
                             </Grid>
                             <TextBox materialDesign:HintAssist.Hint="社員名" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="{DynamicResource TextBoxMargin1}" FontSize="13" Focusable="False" Text="{Binding Member}"/>
@@ -91,7 +92,7 @@
                             <StackPanel Margin="3" Orientation="Vertical">
                                 <Label Content="印字内容" Padding="0" FontSize="12"/>
                                 <materialDesign:ColorZone Mode="Inverted">
-                                    <TextBlock  FontSize="14" TextAlignment="Center" Margin="5" Text="{Binding PrintingContent}"/>
+                                    <TextBlock  FontSize="12" TextAlignment="Center" Margin="5" Text="{Binding PrintingContent}"/>
                                 </materialDesign:ColorZone>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0">
@@ -126,7 +127,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding StopWatchText}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StopWatchText}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <StackPanel Grid.Column="1"  Orientation="Vertical">
                             <Button Content="{Binding StartStopButtonText}" Focusable="False"  HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchStartStop, Mode=OneWay}" Width="84" />
                             <Button Content="RESET"  Focusable="False" HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchReset, Mode=OneWay}" Width="84" />
