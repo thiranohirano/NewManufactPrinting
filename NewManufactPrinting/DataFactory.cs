@@ -223,12 +223,12 @@ namespace NewManufactPrinting
                 Model = model,
                 HasAddedLot = true
             };
-
-            var setproduct = from data in productSetList.AsEnumerable()
-                             where model.Contains((string)data.ItemArray[1])
-                             select data;
             try
             {
+                var setproduct = from data in productSetList.AsEnumerable()
+                             where model.Contains((string)data.ItemArray[1])
+                             select data;
+            
                 if (setproduct.Count() > 0)
                 {
                     object[] objs = setproduct.ToArray()[0].ItemArray;

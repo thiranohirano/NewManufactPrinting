@@ -56,6 +56,7 @@ namespace NewManufactPrinting
                     PrintingButtonEnabled = true;
                     RedoPrintingButtonEnabled = true;
                     LabelPrintingButtonEnabled = true;
+                    LabelPrintingTimes = 0;
                 }
                 this.SetProperty(ref _OrderNumber, value);
             }
@@ -78,6 +79,7 @@ namespace NewManufactPrinting
                     PrintingButtonEnabled = true;
                     RedoPrintingButtonEnabled = true;
                     LabelPrintingButtonEnabled = true;
+                    LabelPrintingTimes = 0;
                 }
                 this.SetProperty(ref _Member, value);
             }
@@ -731,6 +733,28 @@ namespace NewManufactPrinting
                 label_printing_times = printingLog.LabelPrintingTimes
             };
             IsConnect = await manufactApiConnect.WriteCablePrintingLog(baseInfoLog, manufactLog, cablePrintingLog, printingLog.CableNumber);
+        }
+
+        public async Task<string> GetUpdateUrl()
+        {
+            Console.WriteLine("GetUpdateUrl");
+            Console.WriteLine(ApplicationInfo.GetVersionContainsAssembly());
+            var ca = await manufactApiConnect.GetConfirmApplication(Title);
+            if (ca != null)
+            {
+                if (new Version(ca.version).CompareTo(new Version(ApplicationInfo.GetVersionContainsAssembly())) > 0)
+                {
+                    return ServerUrl + ca.download_url;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

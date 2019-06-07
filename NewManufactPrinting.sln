@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewManufactPrinting", "NewManufactPrinting\NewManufactPrinting.csproj", "{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupProject", "SetupProject\SetupProject.vdproj", "{483149DF-3F21-4657-9089-1B167518DFE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,9 @@ Global
 		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD814DE0-7AFA-4F1F-A0EE-847B15F6579E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{483149DF-3F21-4657-9089-1B167518DFE3}.Debug|Any CPU.ActiveCfg = Debug
+		{483149DF-3F21-4657-9089-1B167518DFE3}.Release|Any CPU.ActiveCfg = Release
+		{483149DF-3F21-4657-9089-1B167518DFE3}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

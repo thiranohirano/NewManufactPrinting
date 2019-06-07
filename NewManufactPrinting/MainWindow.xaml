@@ -57,7 +57,7 @@
             <materialDesign:PopupBox Style="{StaticResource WindowCommandsPopupBoxStyle}">
                 <StackPanel>
                     <Button x:Name="reconnect_mi" Content="再接続" Click="Reconnect_mi_Click"/>
-                    <Button Content="アップデートを確認" Visibility="Collapsed"/>
+                    <Button x:Name="check_update_mi" Content="アップデートを確認" Click="Check_update_mi_Click"/>
                     <Button x:Name="env_setting_mi" Content="環境設定..." Click="Env_setting_mi_Click"/>
                 </StackPanel>
             </materialDesign:PopupBox>

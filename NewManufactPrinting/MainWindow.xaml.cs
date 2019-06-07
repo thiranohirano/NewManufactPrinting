@@ -4,6 +4,7 @@ using System.Data;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -89,6 +90,7 @@ namespace NewManufactPrinting
             else
             {
                 api_url = Properties.Settings.Default.ServerUrl;
+                mwvm.ServerUrl = api_url;
             }
 
 #if !DEBUG
@@ -104,6 +106,12 @@ namespace NewManufactPrinting
             {
                 await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Error", "無効なURLです。");
             }
+
+            if (mwvm.IsConnect)
+            {
+                await ExecConfirmUpdate();
+            }
+
 
             string ipAddress = Properties.Settings.Default.IpAddress;
             if(ipAddress == "NONE")
@@ -214,6 +222,19 @@ namespace NewManufactPrinting
             }
         }
 
+        private async void Check_update_mi_Click(object sender, RoutedEventArgs e)
+        {
+            if (mwvm.IsConnect)
+            {
+                await ExecConfirmUpdate(showDialog: true);
+
+                if (!mwvm.IsConnect)
+                {
+                    await ShowDisconnectDialog();
+                }
+            }
+        }
+
         /// <summary>
         /// 印字開始
         /// </summary>
@@ -237,6 +258,7 @@ namespace NewManufactPrinting
 
             mwvm.CompleteButtonEnabled = true;
 
+            inkJetPrinter.ClearPrintTimes();
             inkJetPrinter.ClearRePrintTimes();
             mwvm.RedoPrintingTimes = inkJetPrinter.GetRePrintTimes();
 
@@ -362,21 +384,19 @@ namespace NewManufactPrinting
         }
 
         //QRコードを受信したときの処理
-        private async void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            Thread.Sleep(100);
             SerialPort serialPort = sender as SerialPort;
-            if (mwvm.CompleteButtonEnabled)
-            {
-                await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Caution", "印字が完了していません\n印字完了ボタンを押すか、クリアボタンを押してから読み込んで下さい");
-                serialPort.DiscardInBuffer();
-                return;
-            }
 
             string buffer = serialPort.ReadExisting();
 
             ExecQrRead(buffer);
 
-            serialPort.DiscardInBuffer();//受信バッファの中のデータ
+            if (serialPort.BytesToRead > 0)
+            {
+                serialPort.DiscardInBuffer();//受信バッファの中のデータ
+            }
         }
 
         private void Model_tb_TextChanged(object sender, TextChangedEventArgs e)
@@ -545,6 +565,14 @@ namespace NewManufactPrinting
         /// <param name="qr_str"></param>
         private void ExecQrRead(string qr_str)
         {
+            if (mwvm.CompleteButtonEnabled)
+            {
+                this.Dispatcher.BeginInvoke(new Action(async () =>
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Caution", "印字が完了していません\n印字完了ボタンを押すか、クリアボタンを押してから読み込んで下さい");
+                }));
+                return;
+            }
             string buffer = qr_str;
             buffer = buffer.Replace("\r", string.Empty).Replace("\n", string.Empty);
             if (buffer != string.Empty && buffer != "\r\n")
@@ -570,6 +598,24 @@ namespace NewManufactPrinting
                             break;
                     }
                 }
+            }
+        }
+
+        private async Task ExecConfirmUpdate(bool showDialog = false)
+        {
+            var controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "アップデートを確認中...");
+            string downloadUrl = await mwvm.GetUpdateUrl();
+            Console.WriteLine(downloadUrl);
+            controller.Close();
+            if (downloadUrl != null)
+            {
+                Update update = new Update();
+                update.hyper_link.NavigateUri = new Uri(downloadUrl);
+                _ = (bool?)await DialogHostEx.ShowDialog(this, update);
+            }
+            else if (showDialog)
+            {
+                await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Info", "最新のバージョンです");
             }
         }
 
