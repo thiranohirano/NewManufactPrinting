@@ -342,6 +342,9 @@ namespace NewManufactPrinting
                 if (mwvm.Lot != string.Empty)
                 {
                     print_lot = String.Format(" Lot.{0}", mwvm.Lot);
+                } else
+                {
+                    print_lot = " ";
                 }
                 MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "ラベル印刷中...");
                 bool sendSuccess = false;
