@@ -389,6 +389,7 @@ namespace NewManufactPrinting
         //QRコードを受信したときの処理
         private void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            if (mwvm.DialogIsOpen) return;
             Thread.Sleep(100);
             SerialPort serialPort = sender as SerialPort;
 
@@ -570,9 +571,9 @@ namespace NewManufactPrinting
         {
             if (mwvm.CompleteButtonEnabled)
             {
-                this.Dispatcher.BeginInvoke(new Action(async () =>
+                this.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Caution", "印字が完了していません\n印字完了ボタンを押すか、クリアボタンを押してから読み込んで下さい");
+                    MaterialDialogUtil.ShowMaterialMessageDialog(this, "Caution", "印字が完了していません\n印字完了ボタンを押すか、クリアボタンを押してから読み込んで下さい");
                 }));
                 return;
             }

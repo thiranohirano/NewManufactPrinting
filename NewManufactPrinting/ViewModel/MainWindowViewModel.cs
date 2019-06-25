@@ -506,6 +506,12 @@ namespace NewManufactPrinting
             set { this.SetProperty(ref _BufferedLoggingButtonEnabled, value); }
         }
 
+
+        public bool DialogIsOpen
+        {
+            get; set;
+        }
+
         public string[] ServerUrls { get { return new string[] { "http://192.168.100.50/", "http://192.168.100.51/" }; } }
 
         private const string START_TEXT = "START";

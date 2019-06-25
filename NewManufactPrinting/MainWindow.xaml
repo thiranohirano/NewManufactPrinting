@@ -63,7 +63,7 @@
             </materialDesign:PopupBox>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <materialDesign:DialogHost>
+    <materialDesign:DialogHost IsOpen="{Binding DialogIsOpen}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
