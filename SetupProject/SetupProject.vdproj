@@ -124,6 +124,12 @@
         "Entry"
         {
         "MsmKey" = "8:_50E9E446AC400CB90BC5360C0EC7908E"
+        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_50E9E446AC400CB90BC5360C0EC7908E"
         "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -167,6 +173,12 @@
         {
         "MsmKey" = "8:_B50DFEB05EE0ADB639374DDF4B36A371"
         "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B50DFEB05EE0ADB639374DDF4B36A371"
+        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -215,6 +227,18 @@
         {
         "MsmKey" = "8:_E8286984E0D64EF29F83E35C08FF0BD1"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -305,6 +329,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -580,7 +610,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManufactApiClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ManufactApiClient, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_244C65B261D5DA5C5E82D92B911F0DDE"
@@ -735,7 +765,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManufactApiConnect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ManufactApiConnect, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_78EEF635836E6A0EA56BB337B5ECAC1D"
@@ -1061,6 +1091,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EB983E83433E2EDC15353CD35DC74459"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:WebApiClient, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_EB983E83433E2EDC15353CD35DC74459"
+                    {
+                    "Name" = "8:WebApiClient.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:WebApiClient.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -1161,15 +1222,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NewManufactPrinting"
-        "ProductCode" = "8:{05927643-BECD-4F63-9756-C6529EACE706}"
-        "PackageCode" = "8:{9C67F235-94B0-4877-A6CD-7B6943F3F647}"
+        "ProductCode" = "8:{463DBC3D-5209-4DD2-8690-CD2059196DCE}"
+        "PackageCode" = "8:{9845B992-7D0F-4317-9885-471CAEB19175}"
         "UpgradeCode" = "8:{7C7382E6-A603-4FED-98AD-A0488B638A5F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.7"
+        "ProductVersion" = "8:1.0.10"
         "Manufacturer" = "8:Diatrend"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

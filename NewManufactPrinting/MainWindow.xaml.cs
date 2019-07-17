@@ -389,11 +389,18 @@ namespace NewManufactPrinting
         //QRコードを受信したときの処理
         private void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if (mwvm.DialogIsOpen) return;
             Thread.Sleep(100);
             SerialPort serialPort = sender as SerialPort;
-
             string buffer = serialPort.ReadExisting();
+
+            if (mwvm.DialogIsOpen)
+            {
+                if (serialPort.BytesToRead > 0)
+                {
+                    serialPort.DiscardInBuffer();//受信バッファの中のデータ
+                }
+                return;
+            }
 
             ExecQrRead(buffer);
 
