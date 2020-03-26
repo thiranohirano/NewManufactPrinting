@@ -82,8 +82,8 @@ namespace NewManufactPrinting
                     }
                     Console.WriteLine(mwvm.ServerUrl);
 #if !DEBUG
-                                Properties.Settings.Default.ServerUrl = api_url;
-                                Properties.Settings.Default.Save();
+                    Properties.Settings.Default.ServerUrl = api_url;
+                    Properties.Settings.Default.Save();
 #endif
                 }
             }
@@ -139,7 +139,10 @@ namespace NewManufactPrinting
             };
             ConfirmPrintEndTimer.Tick += ConfirmPrintEndTimer_Tick;
 
+#if !DEBUG
             await ConnectPrinter();
+#endif
+
             mwvm.GetPortName();
             await mwvm.OpenBarcodeSerialPort();
             mwvm.SelectBarcodeComPort = mwvm.SelectedBarcodeComPort;
@@ -289,6 +292,7 @@ namespace NewManufactPrinting
         /// <param name="e"></param>
         private async void Complete_button_Click(object sender, RoutedEventArgs e)
         {
+            if (mwvm.DialogIsOpen) return;
             MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "ロギング中...");
             DateTime created = DateTime.Now;
             created = created.AddTicks(-(created.Ticks % TimeSpan.TicksPerSecond));
@@ -297,8 +301,6 @@ namespace NewManufactPrinting
             if (mwvm.IsConnect == false)
             {
                 //ロギングに失敗した場合
-                //MessageBox.Show("ロギングに失敗しました。内部バッファにデータを保存します。");
-                //Googleにアクセスできないときの処理
                 controller.Close();
                 await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Caution", "ロギングに失敗しました\n内部バッファにデータを保存します");
                 controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "保存中...");
@@ -312,7 +314,7 @@ namespace NewManufactPrinting
                 });
             }
 
-            controller.setMessage("完了処理中です...");
+            controller.SetMessage("完了処理中です...");
             await Task.Delay(2000);
             //表示データと取得データのクリア
             await DoClearTask();
@@ -433,7 +435,7 @@ namespace NewManufactPrinting
             }
             var controller = await MaterialDialogUtil.ShowMaterialProgressDialog(this, "サーバー接続中...");
             await mwvm.LoadLogClasses();
-            controller.setMessage("バッファデータ確認中...");
+            controller.SetMessage("バッファデータ確認中...");
             await Task.Run(() =>
             {
                 mwvm.LoadPrintingLogs();
@@ -698,7 +700,7 @@ namespace NewManufactPrinting
                 mwvm.LabelPrintingTimes = 5;
                 isDebug = true;
             }
-# endif
+#endif
         }
     }
 }

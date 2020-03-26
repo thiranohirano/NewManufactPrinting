@@ -243,6 +243,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_78EEF635836E6A0EA56BB337B5ECAC1D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
         "MsmSig" = "8:_UNDEFINED"
@@ -1095,7 +1101,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WebApiClient, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WebApiClient, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_EB983E83433E2EDC15353CD35DC74459"
@@ -1222,15 +1228,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NewManufactPrinting"
-        "ProductCode" = "8:{463DBC3D-5209-4DD2-8690-CD2059196DCE}"
-        "PackageCode" = "8:{9845B992-7D0F-4317-9885-471CAEB19175}"
+        "ProductCode" = "8:{0E5614B9-4E2F-4552-B9AC-C437C9889FB8}"
+        "PackageCode" = "8:{98182611-A316-4968-AAF0-1DCD1A4ADF2D}"
         "UpgradeCode" = "8:{7C7382E6-A603-4FED-98AD-A0488B638A5F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.10"
+        "ProductVersion" = "8:1.0.11"
         "Manufacturer" = "8:Diatrend"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

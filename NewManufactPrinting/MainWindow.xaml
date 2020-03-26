@@ -19,7 +19,9 @@
         Background="{DynamicResource MaterialDesignPaper}"
         ResizeMode="CanResizeWithGrip"
         Title="{Binding Title}" Height="430" Width="770" Loaded="MainMetroWindow_Loaded" 
-        d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModel}}" TitleCaps="False" Closing="MainMetroWindow_Closing" PreviewKeyDown="MainMetroWindow_PreviewKeyDown" >
+        d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModel}}" TitleCaps="False" 
+        UseLayoutRounding="True"
+        Closing="MainMetroWindow_Closing" PreviewKeyDown="MainMetroWindow_PreviewKeyDown" >
     <Controls:MetroWindow.Resources>
         <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type menuItems:HamburgerMenuIconItem}">
             <Grid Height="48">
@@ -82,10 +84,10 @@
                                 OpenPaneLength="48" IsPaneOpen="False" >
                     <Controls:HamburgerMenu.Content>
                         <MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
-                            <Binding RelativeSource="{RelativeSource Self}"
+                            <Binding ElementName="HamburgerMenuControl"
                                      Mode="OneWay"
                                      Path="SelectedItem" />
-                            <Binding RelativeSource="{RelativeSource Self}"
+                            <Binding ElementName="HamburgerMenuControl"
                                      Mode="OneWay"
                                      Path="SelectedOptionsItem"/>
                         </MultiBinding>
