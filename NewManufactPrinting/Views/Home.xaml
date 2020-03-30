@@ -7,9 +7,15 @@
              xmlns:local="clr-namespace:NewManufactPrinting.Views"
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="NewManufactPrinting.Views.Home"
              mc:Ignorable="d" 
-    TextElement.FontFamily="Meiryo UI"
+             TextElement.FontFamily="Meiryo UI"
              TextElement.FontSize="13"
              d:DesignHeight="360" d:DesignWidth="720">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource MaterialDesignBody}"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
         <Thickness x:Key="TextBoxMargin1">3</Thickness>
         <System:Double x:Key="ButtonFontSize1">16</System:Double>
@@ -67,7 +73,9 @@
                             </Grid>
                             <TextBox materialDesign:HintAssist.Hint="社員名" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="{DynamicResource TextBoxMargin1}" FontSize="13" Focusable="False" Text="{Binding Member}"/>
                         </Grid>
-                        <Button x:Name="clear_btn" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-20,5" >
+                        <Button x:Name="clear_btn" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-20,5" 
+                                Command="{Binding Clear}">
                             <materialDesign:PackIcon Kind="Eraser" Width="24" Height="24"/>
                         </Button>
                     </Grid>
@@ -97,10 +105,25 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0">
                                 <materialDesign:Badged  BadgeColorZoneMode="PrimaryLight" Margin="10" Badge="{Binding PrintingTimes}">
-                                    <Button x:Name="printing_btn" Focusable="False" Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Content="印字開始" Width="120" IsEnabled="{Binding PrintingButtonEnabled}" FontSize="{DynamicResource ButtonFontSize1}"/>
+                                    <Button x:Name="printing_btn" Focusable="False" Style="{StaticResource MaterialDesignRaisedAccentButton}" 
+                                            Height="48" Content="印字開始" Width="120" IsEnabled="{Binding PrintingButtonEnabled}" FontSize="{DynamicResource ButtonFontSize1}"
+                                            Command="{Binding Print}"/>
                                 </materialDesign:Badged>
                                 <materialDesign:Badged BadgeColorZoneMode="PrimaryLight" Margin="10" Badge="{Binding RedoPrintingTimes}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                                    <Button FontSize="{DynamicResource ButtonFontSize1}" Focusable="False" Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Content="{Binding RedoPrintingButtonText}" Width="120" IsEnabled="{Binding RedoPrintingButtonEnabled}" Command="{Binding RedoPrint}"/>
+                                    <Button FontSize="{DynamicResource ButtonFontSize1}" Focusable="False"
+                                            Height="48" Content="{Binding RedoPrintingButtonText}" Width="120" IsEnabled="{Binding RedoPrintingButtonEnabled}" 
+                                            Command="{Binding RedoPrint}">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RedoPrintingMode, Source={StaticResource mwvm}}" Value="True">
+                                                        <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource PrimaryHueLightForegroundBrush}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
 
                                     <!--<StackPanel Orientation="Horizontal" Width="100">
 
@@ -166,12 +189,17 @@
                             </StackPanel>
                         </Grid>
                         <materialDesign:Badged BadgeColorZoneMode="PrimaryLight" Margin="10" HorizontalAlignment="Center" Badge="{Binding LabelPrintingTimes}">
-                            <Button x:Name="label_print_btn" Content="ラベル印刷" FontSize="{DynamicResource ButtonFontSize1}" Focusable="False" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Width="120" IsEnabled="{Binding LabelPrintingButtonEnabled}"/>
+                            <Button x:Name="label_print_btn" Content="ラベル印刷" FontSize="{DynamicResource ButtonFontSize1}" Focusable="False" HorizontalAlignment="Center" 
+                                    Style="{StaticResource MaterialDesignRaisedAccentButton}" Height="48" Width="120" IsEnabled="{Binding LabelPrintingButtonEnabled}"
+                                    Command="{Binding LabelPrint}"/>
                         </materialDesign:Badged>
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>
-            <Button x:Name="complete_btn" Grid.Column="1" Grid.Row="2" Margin="10" Focusable="False" FontSize="{DynamicResource ButtonFontSize2}" Height="60" Style="{StaticResource MaterialDesignRaisedAccentButton}" materialDesign:ShadowAssist.ShadowDepth="Depth3" IsEnabled="{Binding CompleteButtonEnabled}" Content="作業完了" VerticalAlignment="Top"/>
+            <Button x:Name="complete_btn" Grid.Column="1" Grid.Row="2" Margin="10" Focusable="False" FontSize="{DynamicResource ButtonFontSize2}" Height="60" 
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}" materialDesign:ShadowAssist.ShadowDepth="Depth3" IsEnabled="{Binding CompleteButtonEnabled}" 
+                    Content="作業完了" VerticalAlignment="Top"
+                    Command="{Binding Complete}"/>
         </Grid>
     </Viewbox>
 </UserControl>

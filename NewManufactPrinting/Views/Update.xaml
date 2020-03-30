@@ -7,12 +7,21 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
+             d:DataContext="{Binding Source={StaticResource mwvm}}"
              d:DesignHeight="250" d:DesignWidth="400">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource MaterialDesignBody}"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Label x:Name="title_lbl" Content="Info" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="5"/>
         <Button x:Name="close_btn" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" Focusable="False" 
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
             <Button.CommandParameter>
@@ -20,14 +29,14 @@
             </Button.CommandParameter>
             <materialDesign:PackIcon Kind="WindowClose" />
         </Button>
-        <StackPanel Margin="16" Grid.Row="0">
-
-            <TextBlock Text="New version available" FontWeight="Bold" FontSize="17" Margin="3"/>
-            <TextBlock x:Name="message_tbk" FontSize="13" TextWrapping="Wrap" TextAlignment="Left" VerticalAlignment="Center" Margin="16,5,3,5"><Run Text="A new version is available."/></TextBlock>
-            <TextBlock Margin="16,5,3,5"><Hyperlink x:Name="hyper_link" RequestNavigate="Hyper_link_RequestNavigate"><Run Text="{Binding NavigateUri.AbsoluteUri, ElementName=hyper_link, Mode=OneWay}"/></Hyperlink></TextBlock>
-
+        <StackPanel Margin="10" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="InfoCircleOutline" VerticalAlignment="Stretch" Height="20" Width="20"/>
+                <TextBlock Text="新しいバージョンがリリースされました" FontWeight="Bold" FontSize="16" Margin="3"/>
+            </StackPanel>
+            <TextBlock Text="{Binding ConfirmApplication.version, StringFormat=New Version : {0}}" HorizontalAlignment="Center" Margin="5"/>
         </StackPanel>
-        <Button x:Name="comp_btn" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="100" FontSize="16" Grid.Row="1" 
+        <Button Grid.Row="2" Content="更新" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="100" FontSize="16"  
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
             <Button.CommandParameter>
                 <system:Boolean>True</system:Boolean>

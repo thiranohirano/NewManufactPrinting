@@ -10,6 +10,12 @@
              TextElement.FontSize="13"
              DataContext="{Binding Source={StaticResource mwvm}}"
              d:DesignHeight="360" d:DesignWidth="720">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource MaterialDesignBody}"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
         <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}" >
             <Setter Property="Padding" Value="3,0" />
@@ -111,7 +117,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-            <Button x:Name="buffered_logging_btn" Grid.Row="1" Content="バッファロギング" Width="Auto" HorizontalAlignment="Left" Margin="10" Focusable="False" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding BufferedLoggingButtonEnabled}"/>
+            <Button x:Name="buffered_logging_btn" Grid.Row="1" Content="バッファロギング" Width="Auto" HorizontalAlignment="Left" Margin="10" Focusable="False" 
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding BufferedLoggingButtonEnabled}"
+                    Command="{Binding BufferedLogging}"/>
         </Grid>
     </Viewbox>
 </UserControl>

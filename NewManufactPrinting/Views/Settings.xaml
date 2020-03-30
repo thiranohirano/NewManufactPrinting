@@ -10,6 +10,12 @@
              TextElement.FontFamily="Meiryo UI"
              TextElement.FontSize="12"
              d:DesignHeight="360" d:DesignWidth="720">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource MaterialDesignBody}"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
         <Thickness x:Key="TextBoxMargin1">0,2</Thickness>
         <Thickness x:Key="ButtonMargin1">10</Thickness>

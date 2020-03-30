@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NewManufactPrinting
 {
-    class InkJetPrinter
+    public class InkJetPrinter
     {
         TcpClient client = null;
         string ipAddress;
@@ -49,6 +49,7 @@ namespace NewManufactPrinting
 
         public void Close()
         {
+            if (client == null) return;
             try
             {
                 client.Close();

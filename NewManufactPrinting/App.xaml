@@ -25,21 +25,25 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- MahApps Brushes -->
-            <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}"/>
-            <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource Primary500}"/>
-            <SolidColorBrush x:Key="AccentColorBrush2" Color="{DynamicResource Primary400}"/>
-            <SolidColorBrush x:Key="AccentColorBrush3" Color="{DynamicResource Primary300}"/>
-            <SolidColorBrush x:Key="AccentColorBrush4" Color="{DynamicResource Primary200}"/>
-            <SolidColorBrush x:Key="WindowTitleColorBrush" Color="{DynamicResource Primary700}"/>
-            <SolidColorBrush x:Key="AccentSelectedColorBrush" Color="{DynamicResource Primary500Foreground}"/>
+            <SolidColorBrush x:Key="HighlightBrush" Color="{Binding Color, Source={StaticResource PrimaryHueDarkBrush}}"/>
+            <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{Binding Color, Source={StaticResource PrimaryHueDarkBrush}}" />
+            <SolidColorBrush x:Key="AccentColorBrush" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}"/>
+            <SolidColorBrush x:Key="AccentColorBrush2" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}" Opacity=".8"/>
+            <SolidColorBrush x:Key="AccentColorBrush3" Color="{Binding Color, Source={StaticResource PrimaryHueLightBrush}}" />
+            <SolidColorBrush x:Key="AccentColorBrush4" Color="{Binding Color, Source={StaticResource PrimaryHueLightBrush}}"/>
+            <SolidColorBrush x:Key="WindowTitleColorBrush" Color="{Binding Color, Source={StaticResource PrimaryHueDarkBrush}}"/>
+            <SolidColorBrush x:Key="AccentSelectedColorBrush" Color="{Binding Color, Source={StaticResource PrimaryHueMidForegroundBrush}}"/>
             <LinearGradientBrush x:Key="ProgressBrush" EndPoint="0.001,0.5" StartPoint="1.002,0.5">
-                <GradientStop Color="{DynamicResource Primary700}" Offset="0"/>
-                <GradientStop Color="{DynamicResource Primary300}" Offset="1"/>
+                <GradientStop Color="{Binding Color, Source={StaticResource PrimaryHueDarkBrush}}" Offset="0"/>
+                <GradientStop Color="{Binding Color, Source={StaticResource PrimaryHueLightBrush}}" Offset="1"/>
             </LinearGradientBrush>
-            <SolidColorBrush x:Key="CheckmarkFill" Color="{DynamicResource Primary500}"/>
-            <SolidColorBrush x:Key="RightArrowFill" Color="{DynamicResource Primary500}"/>
-            <SolidColorBrush x:Key="IdealForegroundColorBrush" Color="{DynamicResource Primary500Foreground}"/>
-            <SolidColorBrush x:Key="IdealForegroundDisabledBrush" Color="{DynamicResource Primary500}" Opacity="0.4"/>
+            <SolidColorBrush x:Key="CheckmarkFill" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}"/>
+            <SolidColorBrush x:Key="RightArrowFill" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}"/>
+            <SolidColorBrush x:Key="IdealForegroundColorBrush" Color="{Binding Color, Source={StaticResource PrimaryHueMidForegroundBrush}}"/>
+            <SolidColorBrush x:Key="IdealForegroundDisabledBrush" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}" Opacity="0.4"/>
+            <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}" />
+            <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{Binding Color, Source={StaticResource PrimaryHueMidBrush}}" />
+            <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{Binding Color, Source={StaticResource PrimaryHueMidForegroundBrush}}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -10,6 +10,12 @@
              TextElement.FontFamily="Meiryo UI"
              d:DataContext="{Binding Source={StaticResource mwvm}}"
              d:DesignHeight="250" d:DesignWidth="400">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource MaterialDesignBody}"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
     </UserControl.Resources>

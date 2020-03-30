@@ -1,18 +1,22 @@
 ﻿using ManufactApiClient.Models;
+using MaterialDesignThemes.Wpf;
 using MaterialDialog;
 using MyUtilityMethods;
 using NewManufactPrinting.BufferedLog;
 using NewManufactPrinting.BufferedLog.Entities;
 using NewManufactPrinting.ViewModel;
+using NewManufactPrinting.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -44,6 +48,8 @@ namespace NewManufactPrinting
             }
         }
 
+        #region Home
+
         public BaseInfoLog BaseInfoLog;
 
         private string _OrderNumber = string.Empty;
@@ -68,10 +74,7 @@ namespace NewManufactPrinting
         /// </summary>
         public string Member
         {
-            get
-            {
-                return _Member;
-            }
+            get { return _Member; }
             set
             {
                 if (value != string.Empty && OrderNumber != string.Empty)
@@ -91,12 +94,10 @@ namespace NewManufactPrinting
         /// </summary>
         public string Model
         {
-            get
-            {
-                return _Model;
-            }
+            get { return _Model; }
             set
             {
+                PrintingContent = MakePrintContent(value, Lot);
                 this.SetProperty(ref _Model, value);
             }
         }
@@ -107,14 +108,8 @@ namespace NewManufactPrinting
         /// </summary>
         public int? Quantity
         {
-            get
-            {
-                return _quantity;
-            }
-            set
-            {
-                this.SetProperty(ref _quantity, value);
-            }
+            get { return _quantity; }
+            set { this.SetProperty(ref _quantity, value); }
         }
 
         private string _Plate = string.Empty;
@@ -123,14 +118,8 @@ namespace NewManufactPrinting
         /// </summary>
         public string Plate
         {
-            get
-            {
-                return _Plate;
-            }
-            set
-            {
-                this.SetProperty(ref _Plate, value);
-            }
+            get { return _Plate; }
+            set { this.SetProperty(ref _Plate, value); }
         }
 
         private string CableNumber;
@@ -140,12 +129,10 @@ namespace NewManufactPrinting
         /// </summary>
         public string Lot
         {
-            get
-            {
-                return _Lot;
-            }
+            get { return _Lot; }
             set
             {
+                PrintingContent = MakePrintContent(Model, value);
                 this.SetProperty(ref _Lot, value);
             }
         }
@@ -156,14 +143,8 @@ namespace NewManufactPrinting
         /// </summary>
         public string PrintingContent
         {
-            get
-            {
-                return _PrintingContent;
-            }
-            set
-            {
-                this.SetProperty(ref _PrintingContent, value);
-            }
+            get { return _PrintingContent; }
+            set { this.SetProperty(ref _PrintingContent, value); }
         }
 
         private int? _PrintingTimes;
@@ -172,14 +153,8 @@ namespace NewManufactPrinting
         /// </summary>
         public int? PrintingTimes
         {
-            get
-            {
-                return _PrintingTimes;
-            }
-            set
-            {
-                this.SetProperty(ref _PrintingTimes, value);
-            }
+            get { return _PrintingTimes; }
+            set { this.SetProperty(ref _PrintingTimes, value); }
         }
 
         private bool _PrintingButtonEnabled = false;
@@ -195,14 +170,8 @@ namespace NewManufactPrinting
         /// </summary>
         public int? RedoPrintingTimes
         {
-            get
-            {
-                return _RedoPrintingTimes;
-            }
-            set
-            {
-                this.SetProperty(ref _RedoPrintingTimes, value);
-            }
+            get { return _RedoPrintingTimes; }
+            set { this.SetProperty(ref _RedoPrintingTimes, value); }
         }
 
         private bool _RedoPrintingMode = false;
@@ -217,19 +186,17 @@ namespace NewManufactPrinting
                 if (value)
                 {
                     RedoPrintingButtonText = RedoDuringString;
-                    //RePrintButtonEnabled = false;
                 }
                 else
                 {
                     RedoPrintingButtonText = RedoString;
-                    //RePrintButtonEnabled = true;
                 }
-                _RedoPrintingMode = value;
+                this.SetProperty(ref _RedoPrintingMode, value);
             }
         }
 
-        private static string RedoString = "やり直し";
-        private static string RedoDuringString = "やり直し中";
+        private const string RedoString = "やり直し";
+        private const string RedoDuringString = "やり直し中";
 
         private string _RedoPrintingButtonText = RedoString;
         public string RedoPrintingButtonText
@@ -248,6 +215,20 @@ namespace NewManufactPrinting
             }
         }
 
+        private string _StartStopButtonText = START_TEXT;
+        public string StartStopButtonText
+        {
+            get { return _StartStopButtonText; }
+            set { this.SetProperty(ref _StartStopButtonText, value); }
+        }
+
+        private string _StopWatchText = STOPWATCH_RESET_TEXT;
+        public string StopWatchText
+        {
+            get { return _StopWatchText; }
+            set { this.SetProperty(ref _StopWatchText, value); }
+        }
+
         private bool _LabelPrintingButtonEnabled = false;
         public bool LabelPrintingButtonEnabled
         {
@@ -262,14 +243,8 @@ namespace NewManufactPrinting
         /// </summary>
         public int? LabelPrintingTimes
         {
-            get
-            {
-                return _LabelPrintingTimes;
-            }
-            set
-            {
-                this.SetProperty(ref _LabelPrintingTimes, value);
-            }
+            get { return _LabelPrintingTimes; }
+            set { this.SetProperty(ref _LabelPrintingTimes, value); }
         }
 
         private bool _EditEnable;
@@ -296,10 +271,7 @@ namespace NewManufactPrinting
         /// </summary>
         public int LabelPrintingQuantity
         {
-            get
-            {
-                return _LabelPrintingQuantity;
-            }
+            get { return _LabelPrintingQuantity; }
             set
             {
                 if(value == 0)
@@ -317,19 +289,47 @@ namespace NewManufactPrinting
             set { this.SetProperty(ref _CompleteButtonEnabled, value); }
         }
 
-        private string _StartStopButtonText = START_TEXT;
-        public string StartStopButtonText
+        #endregion
+
+        #region BufferedLogs
+
+        private ObservableCollection<PrintingLog> _BufferedPrintingLogs = new ObservableCollection<PrintingLog>();
+        public ObservableCollection<PrintingLog> BufferedPrintingLogs
         {
-            get { return _StartStopButtonText; }
-            set { this.SetProperty(ref _StartStopButtonText, value); }
+            get { return _BufferedPrintingLogs; }
+            set
+            {
+                int? count = null;
+                if (value != null)
+                {
+                    if (value.Count > 0)
+                    {
+                        count = value.Count;
+                    }
+                }
+                BufferedPrintingLogsLength = count;
+                BufferedLoggingButtonEnabled = count == null ? false : true;
+                this.SetProperty(ref _BufferedPrintingLogs, value);
+            }
         }
 
-        private string _StopWatchText = STOPWATCH_RESET_TEXT;
-        public string StopWatchText
+        private int? _BufferedPrintingLogsLength;
+        public int? BufferedPrintingLogsLength
         {
-            get { return _StopWatchText; }
-            set { this.SetProperty(ref _StopWatchText, value); }
+            get { return _BufferedPrintingLogsLength; }
+            set { this.SetProperty(ref _BufferedPrintingLogsLength, value); }
         }
+
+        private bool _BufferedLoggingButtonEnabled = false;
+        public bool BufferedLoggingButtonEnabled
+        {
+            get { return _BufferedLoggingButtonEnabled; }
+            set { this.SetProperty(ref _BufferedLoggingButtonEnabled, value); }
+        }
+
+        #endregion
+
+        #region Settings
 
         private Dictionary<string, string> _PortsTable = new Dictionary<string, string>(); //COMポート群
         public Dictionary<string, string> PortsTable
@@ -414,11 +414,24 @@ namespace NewManufactPrinting
             set { this.SetProperty(ref _Port, value); }
         }
 
-        private string _ServerUrl = string.Empty;
-        public string ServerUrl
+        #endregion
+
+        #region Help
+
+        private bool _IsEnableReadMe;
+        public bool IsEnableReadMe
         {
-            get { return _ServerUrl; }
-            set { this.SetProperty(ref _ServerUrl, value); }
+            get { return _IsEnableReadMe; }
+            set { this.SetProperty(ref _IsEnableReadMe, value); }
+        }
+
+        #endregion
+
+        private int _SelectedMenuIndex = 0;
+        public int SelectedMenuIndex
+        {
+            get { return _SelectedMenuIndex; }
+            set { this.SetProperty(ref _SelectedMenuIndex, value); }
         }
 
         private bool _IsConnect = false;
@@ -473,46 +486,30 @@ namespace NewManufactPrinting
             set { this.SetProperty(ref _InkJetConnectStateColor, value); }
         }
 
-        private ObservableCollection<PrintingLog> _BufferedPrintingLogs = new ObservableCollection<PrintingLog>();
-        public ObservableCollection<PrintingLog> BufferedPrintingLogs
+        private string _ServerUrl = string.Empty;
+        public string ServerUrl
         {
-            get { return _BufferedPrintingLogs; }
-            set {
-                int? count = null;
-                if(value != null)
-                {
-                    if(value.Count > 0)
-                    {
-                        count = value.Count;
-                    }
-                }
-                BufferedPrintingLogsLength = count;
-                BufferedLoggingButtonEnabled = count == null ? false : true;
-                this.SetProperty(ref _BufferedPrintingLogs, value);
+            get { return _ServerUrl; }
+            set { this.SetProperty(ref _ServerUrl, value); }
+        }
+
+        public string[] ServerUrls { get { return new string[] { "http://192.168.100.50/", "http://192.168.100.51/" }; } }
+
+        private ConfirmApplication _ConfirmApplication;
+        public ConfirmApplication ConfirmApplication
+        {
+            get { return _ConfirmApplication; }
+            set
+            {
+                IsEnableReadMe = value != null;
+                this.SetProperty(ref _ConfirmApplication, value);
             }
         }
-
-        private int? _BufferedPrintingLogsLength;
-        public int? BufferedPrintingLogsLength
-        {
-            get { return _BufferedPrintingLogsLength; }
-            set { this.SetProperty(ref _BufferedPrintingLogsLength, value); }
-        }
-
-        private bool _BufferedLoggingButtonEnabled = false;
-        public bool BufferedLoggingButtonEnabled
-        {
-            get { return _BufferedLoggingButtonEnabled; }
-            set { this.SetProperty(ref _BufferedLoggingButtonEnabled, value); }
-        }
-
 
         public bool DialogIsOpen
         {
             get; set;
         }
-
-        public string[] ServerUrls { get { return new string[] { "http://192.168.100.50/", "http://192.168.100.51/" }; } }
 
         private const string START_TEXT = "START";
         private const string STOP_TEXT = "STOP";
@@ -520,22 +517,29 @@ namespace NewManufactPrinting
         private const string SERIALPORT_NONE = "NONE";
         private const string CABLE_DATA_CSV_FILE = "ケーブル番号ー外形.csv";
         private const string PRODUCT_SET_LIST_CSV_FILE = "セット品型式リスト.csv";
+        private const string ADDRESS_NONE = "NONE";
         private MainWindow mainWindow;
         private ManufactApiConnect.CablePrintingManufactApiConnect manufactApiConnect;
         private PrintingLogConnect printingLogConnect;
         private Stopwatch stopwatch = new Stopwatch();
-        public SerialPort BarcodeSerialPort = new SerialPort(SERIALPORT_NONE); //バーコードリーダー通信シリアルポート
-        public SerialPort LabelPrinterSerialPort = new SerialPort(SERIALPORT_NONE); //ラベルプリンター通信シリアルポート
-        private string AQRCode;
+        private readonly SerialPort BarcodeSerialPort = new SerialPort(SERIALPORT_NONE); //バーコードリーダー通信シリアルポート
+        private readonly SerialPort LabelPrinterSerialPort = new SerialPort(SERIALPORT_NONE); //ラベルプリンター通信シリアルポート
+        private readonly InkJetPrinter inkJetPrinter = new InkJetPrinter();
+        public DispatcherTimer ConfirmPrintEndTimer;
+        public bool isDebug;
+        public bool IsReadStateAQR;
 
+        public ICommand Clear { get; private set; }
+        public ICommand Print { get; private set; }
         public  ICommand RedoPrint { get; private set; }
-        public ICommand Plus { get; private set; }
-        public ICommand Minus { get; private set; }
-
         public ICommand StopWatchStartStop { get; private set; }
         public ICommand StopWatchReset { get; private set; }
+        public ICommand Plus { get; private set; }
+        public ICommand Minus { get; private set; }
+        public ICommand LabelPrint { get; private set; }
+        public ICommand Complete { get; private set; }
 
-        public ICommand ServerUrlSettingApply { get; private set; }
+        public ICommand BufferedLogging { get; private set; }
 
         public ICommand InkJetPrinterSettingApply { get; private set; }
 
@@ -553,19 +557,48 @@ namespace NewManufactPrinting
         {
             mainWindow = (MainWindow)Application.Current.MainWindow as MainWindow;
             printingLogConnect = new PrintingLogConnect();
+
+            #region HomeView Commands
+            Clear = new DelegateCommand(async (o) =>
+            {
+                await DoClearTask();
+            });
+
+            Print = new DelegateCommand(async (o) =>
+            {
+                string printLot = MakePrintLot(Lot);
+                bool sendSuccess = false;
+                await Task.Run(() =>
+                {
+                    //印字データをプリンターに送信
+                    sendSuccess = inkJetPrinter.SendPrinting(Model, printLot);
+                });
+
+                if (!sendSuccess && !isDebug)
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Warning", "送信できませんでした。");
+                    return;
+                }
+
+                CompleteButtonEnabled = true;
+
+                inkJetPrinter.ClearPrintTimes();
+                inkJetPrinter.ClearRePrintTimes();
+                RedoPrintingTimes = inkJetPrinter.GetRePrintTimes();
+
+                if (!isDebug)
+                {
+                    ConfirmPrintEndTimer.Start();
+                }
+                else
+                {
+                    PrintingTimes = inkJetPrinter.GetPrintTimes();
+                }
+            });
+
             RedoPrint = new DelegateCommand((o) =>
             {
                 RedoPrintingMode = !RedoPrintingMode;
-            });
-
-            Plus = new DelegateCommand((o) =>
-            {
-                LabelPrintingQuantity++;
-            });
-
-            Minus = new DelegateCommand((o) =>
-            {
-                if (LabelPrintingQuantity > 1) LabelPrintingQuantity--; 
             });
 
             StopWatchStartStop = new DelegateCommand((o) =>
@@ -588,34 +621,125 @@ namespace NewManufactPrinting
                 StartStopButtonText = START_TEXT;
             });
 
-            ServerUrlSettingApply = new DelegateCommand(async (o) =>
+            Plus = new DelegateCommand((o) =>
             {
-#if !DEBUG
-                string api_url = "NONE";
-                if(ServerUrl != "NONE")
-                {
-                    api_url = ServerUrl;
-                }
-                Properties.Settings.Default.ServerUrl = api_url;
-                Properties.Settings.Default.Save();
-#endif
+                LabelPrintingQuantity++;
+            });
 
-                IsConnect = false;
-                SetApiServer(ServerUrl);
-                await mainWindow.ConnectServer(false);
-                if(IsConnect)
+            Minus = new DelegateCommand((o) =>
+            {
+                if (LabelPrintingQuantity > 1) LabelPrintingQuantity--; 
+            });
+
+            LabelPrint = new DelegateCommand(async (o) =>
+            {
+                if (!LabelPrinterSerialPort.IsOpen)
                 {
-                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Info", "サーバーに接続できました");
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Warning", "ラベルプリンターのCOMポートが開いていません");
+                    return;
+                }
+
+                //コマンドを送って応答があるかで、電源が入っているか確認
+                LabelPrinterSerialPort.Write(DataFactory.ConfirmLabelNumCmd, 0, DataFactory.ConfirmLabelNumCmd.Length);
+                await Task.Delay(500);
+                if (LabelPrinterSerialPort.BytesToRead > 0)
+                {
+                    LabelPrinterSerialPort.DiscardInBuffer();
+                    string print_lot = string.Empty;
+                    if (Lot != string.Empty)
+                    {
+                        print_lot = String.Format(" Lot.{0}", Lot);
+                    }
+                    else
+                    {
+                        print_lot = " ";
+                    }
+                    MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "ラベル印刷中...");
+                    bool sendSuccess = false;
+                    await Task.Run(() =>
+                    {
+                        try
+                        {
+                            //印刷コマンドを送信
+                            byte[] sendData = DataFactory.MakeSendDataForLabel(Model, print_lot, LabelPrintingQuantity);
+                            LabelPrinterSerialPort.Write(sendData, 0, sendData.Length);
+                            sendSuccess = true;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    });
+                    if (!sendSuccess)
+                    {
+                        controller.Close();
+                        await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Warning", "ラベルプリンタとの通信に失敗しました");
+                        return;
+                    }
+
+                    await Task.Delay(2000);
+
+                    controller.Close();
+
+                    CompleteButtonEnabled = true;
+                    LabelPrintingTimes += LabelPrintingQuantity;
+                }
+                else
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Caution", "ラベルプリンターの電源が入っていることを確認して下さい");
                 }
             });
 
+            Complete = new DelegateCommand(async (o) =>
+            {
+                if (DialogIsOpen) return;
+                MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "ロギング中...");
+                DateTime created = DateTime.Now;
+                created = created.AddTicks(-(created.Ticks % TimeSpan.TicksPerSecond));
+                await WriteCablePrintingLog(created);
+
+                if (IsConnect == false)
+                {
+                    //ロギングに失敗した場合
+                    controller.Close();
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Caution", "ロギングに失敗しました\n内部バッファにデータを保存します");
+                    controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "保存中...");
+                    await Task.Run(() =>
+                    {
+                        AddPrintingLog(created);
+                    });
+                    await Task.Run(() =>
+                    {
+                        LoadPrintingLogs();
+                    });
+                }
+
+                controller.SetMessage("完了処理中です...");
+                await Task.Delay(2000);
+                //表示データと取得データのクリア
+                await DoClearTask();
+                await controller.CloseWait();
+            });
+
+            #endregion
+
+            #region BufferedLogsView Commands
+
+            BufferedLogging = new DelegateCommand(async (o) =>
+            {
+                await DoBufferedLogging();
+            });
+
+            #endregion
+
+            #region SettingsView Commands
+
             InkJetPrinterSettingApply = new DelegateCommand(async (o) =>
             {
-                if (IpAddress == string.Empty) IpAddress = "NONE";
+                if (IpAddress == string.Empty) IpAddress = ADDRESS_NONE;
                 Properties.Settings.Default.IpAddress = IpAddress;
                 Properties.Settings.Default.Port = Port;
                 Properties.Settings.Default.Save();
-                bool success = await mainWindow.ConnectPrinter();
+                bool success = await ConnectPrinter();
                 if(success)
                 {
                     await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Info", "インクジェットプリンターに接続できました");
@@ -673,6 +797,8 @@ namespace NewManufactPrinting
                 }
             });
 
+            #endregion
+
             /* ストップウォッチ用描画タイマー */
             DispatcherTimer stopwatchTimer = new DispatcherTimer
             {
@@ -684,11 +810,166 @@ namespace NewManufactPrinting
                 StopWatchText = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
             };
             stopwatchTimer.Start();
+
+            string ipAddress = Properties.Settings.Default.IpAddress;
+            if (ipAddress == ADDRESS_NONE)
+            {
+                ipAddress = string.Empty;
+            }
+            IpAddress = ipAddress;
+            Port = Properties.Settings.Default.Port;
+
+            SelectedBarcodeComPort = Properties.Settings.Default.BarcodeCOM;
+            BarcodeSerialPort.Encoding = Encoding.GetEncoding(932);
+            BarcodeSerialPort.DataReceived += BarcodeSerialPort_DataReceived;
+
+            SelectedLabelPrinterComPort = Properties.Settings.Default.LabelPrinterCOM;
+            LabelPrinterSerialPort.Encoding = Encoding.GetEncoding(932);
+            LabelPrinterSerialPort.BaudRate = 115200;
+
+            CableDataFilePath = Properties.Settings.Default.CableDataCsvPath;
+            ProductSetListFilePath = Properties.Settings.Default.ProductSetListCsvPath;
+
+            //印字終了確認処理を行うタイマー
+            ConfirmPrintEndTimer = new DispatcherTimer()
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 100)
+            };
+            ConfirmPrintEndTimer.Tick += ConfirmPrintEndTimer_Tick;
         }
 
-        public void SetApiServer(string server)
+        public async Task ConfirmApiUrlConnection(string apiUrl, bool isShowResultDialog = false)
         {
-            manufactApiConnect = new ManufactApiConnect.CablePrintingManufactApiConnect(server);
+            try
+            {
+                manufactApiConnect = new ManufactApiConnect.CablePrintingManufactApiConnect(apiUrl);
+                await ConnectServer();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Error", "無効なURLです。");
+                return;
+            }
+            if (isShowResultDialog)
+            {
+                if (IsConnect)
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Info", "接続成功しました。");
+                }
+            }
+            await ConfirmUpdate();
+        }
+
+        public async Task ConnectServer(bool reset = true)
+        {
+            if (reset)
+            {
+                ResetAllQRInfo();
+            }
+            var controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "サーバー接続中...");
+            await LoadLogClasses();
+            controller.SetMessage("バッファデータ確認中...");
+            await Task.Run(() =>
+            {
+                LoadPrintingLogs();
+            });
+            await controller.CloseWait();
+            if (!IsConnect)
+            {
+                await ShowDisconnectDialog();
+            }
+            else if (BufferedPrintingLogsLength > 0)
+            {
+                await DoBufferedLogging();
+            }
+        }
+
+        public async Task DoBufferedLogging()
+        {
+            MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "バッファロギング中...");
+
+            foreach (var item in BufferedPrintingLogs)
+            {
+                await WriteBufferedLog(item);
+                if (!IsConnect)
+                {
+                    break;
+                }
+                else
+                {
+                    RemovePrintingLog(item);
+                }
+            }
+            await Task.Run(() =>
+            {
+                LoadPrintingLogs();
+            });
+            await controller.CloseWait(300);
+        }
+
+        public async Task ConfirmUpdate(bool isShowResultDialog = false)
+        {
+            if (!IsConnect) return;
+            var controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "アップデートを確認中...");
+            string downloadUrl = await GetUpdateUrl();
+            Console.WriteLine(downloadUrl);
+            await controller.CloseWait();
+            if (downloadUrl != null)
+            {
+                if (downloadUrl != string.Empty)
+                {
+                    Update update = new Update();
+                    bool? re = (bool?)await DialogHostEx.ShowDialog(mainWindow, update);
+                    if (re.HasValue && re.Value == true)
+                    {
+                        Process.Start(new ProcessStartInfo(downloadUrl));
+                    }
+                }
+                else if (isShowResultDialog)
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Info", "最新のバージョンです");
+                }
+            }
+            else if (IsConnect)
+            {
+                if (isShowResultDialog)
+                {
+                    await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Info", "このアプリケーションのバージョンはサーバーで管理されていません");
+                }
+            }
+            if (!IsConnect)
+            {
+                await ShowDisconnectDialog();
+            }
+        }
+
+        private async Task<string> GetUpdateUrl()
+        {
+            var ca = await manufactApiConnect.GetConfirmApplication(Title);
+            ConfirmApplication = ca;
+            if (ca != null)
+            {
+                try
+                {
+                    if (new Version(ca.version).CompareTo(new Version(ApplicationInfo.GetVersionContainsAssembly())) > 0)
+                    {
+                        return ca.download_url_full;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task LoadLogClasses()
@@ -741,35 +1022,12 @@ namespace NewManufactPrinting
             IsConnect = await manufactApiConnect.WriteCablePrintingLog(baseInfoLog, manufactLog, cablePrintingLog, printingLog.CableNumber);
         }
 
-        public async Task<string> GetUpdateUrl()
-        {
-            Console.WriteLine("GetUpdateUrl");
-            Console.WriteLine(ApplicationInfo.GetVersionContainsAssembly());
-            var ca = await manufactApiConnect.GetConfirmApplication(Title);
-            if (ca != null)
-            {
-                if (new Version(ca.version).CompareTo(new Version(ApplicationInfo.GetVersionContainsAssembly())) > 0)
-                {
-                    return ServerUrl + ca.download_url;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         /// <summary>
         /// 製品QRコードからデータ読み込み
         /// </summary>
         /// <param name="aqr"></param>
         public void ShowAQR(string aqr)
         {
-            AQRCode = aqr;
             string[] split_qr = LogDefineMethod.leaveDelimiterSplitQR(aqr);
             var lbi = new BaseInfoLog();
             for (int i = 0; i < 6; i++)
@@ -861,6 +1119,180 @@ namespace NewManufactPrinting
         {
             ResetAQR();
             ResetBQR();
+        }
+
+        //QRコードを受信したときの処理
+        private void BarcodeSerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            Thread.Sleep(100);
+            SerialPort serialPort = sender as SerialPort;
+            string buffer = serialPort.ReadExisting();
+
+            if (DialogIsOpen || SelectedMenuIndex != 0)
+            {
+                if (serialPort.BytesToRead > 0)
+                {
+                    serialPort.DiscardInBuffer();//受信バッファの中のデータ
+                }
+                return;
+            }
+
+            ExecQrRead(buffer);
+
+            if (serialPort.BytesToRead > 0)
+            {
+                serialPort.DiscardInBuffer();//受信バッファの中のデータ
+            }
+        }
+
+        /// <summary>
+        /// AのQRコードを読んだ後の処理
+        /// </summary>
+        /// <param name="aqr"></param>
+        public async void ExecAQrRead(string aqr)
+        {
+            await ExecAQrReadLog(aqr);
+            IsReadStateAQR = false;
+        }
+
+        private async Task ExecAQrReadLog(string aqr)
+        {
+            ShowAQR(aqr);
+
+            //セット品型式である場合に付属品そのものの型式に変換し、
+            //ロット番号を付加するかどうかを決定。
+            DataTable productSetList = new DataTable();
+            await Task.Run(() =>
+            {
+                productSetList = DataFactory.GetProductSetList();
+            });
+            PrintContent pc = DataFactory.GetConvertedPrintContent(Model, productSetList);
+
+            string lot = string.Empty;
+            if (pc.HasAddedLot)
+            {
+                lot = DateTime.Now.ToString("ddMMyy");
+            }
+            string printStr = MakePrintContent(Model, lot);
+            Lot = lot;
+            PrintingContent = printStr;
+        }
+
+        /// <summary>
+        /// QRコード別の処理
+        /// </summary>
+        /// <param name="qr_str"></param>
+        private void ExecQrRead(string qr_str)
+        {
+            if (CompleteButtonEnabled)
+            {
+                mainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Caution", "印字が完了していません\n印字完了ボタンを押すか、クリアボタンを押してから読み込んで下さい");
+                }));
+                return;
+            }
+            string buffer = qr_str;
+            buffer = buffer.Replace("\r", string.Empty).Replace("\n", string.Empty);
+            if (buffer != string.Empty && buffer != "\r\n")
+            {
+                string QRresult = buffer;
+                string[] qr = LogDefineMethod.leaveDelimiterSplitQR(QRresult);
+                if (qr.Length > 5)
+                {
+                    switch (qr[1])
+                    {
+                        case "A":
+                            if (!IsReadStateAQR && qr.Length > 6)
+                            {
+                                IsReadStateAQR = true;
+                                mainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    ExecAQrRead(QRresult);
+                                }));
+                            }
+                            break;
+                        case "B":
+                            mainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                ShowBQR(QRresult);
+                            }));
+                            break;
+                    }
+                }
+            }
+        }
+
+        public async Task<bool> ConnectPrinter()
+        {
+            string result = string.Empty;
+            MaterialProgressDialogController controller = await MaterialDialogUtil.ShowMaterialProgressDialog(mainWindow, "インクジェットプリンターに接続中...");
+            bool success = false;
+            await Task.Run(() =>
+            {
+                inkJetPrinter.Close();
+                inkJetPrinter.SetIpAddress(Properties.Settings.Default.IpAddress);
+                inkJetPrinter.SetPort(Properties.Settings.Default.Port);
+                success = inkJetPrinter.Connect();
+            });
+            await controller.CloseWait(300);
+            InkJetIsConnect = success;
+            if (!success)
+            {
+                await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Warning", "インクジェットプリンターに接続できませんでした");
+            }
+
+            return success;
+        }
+
+        public void ClosePrinter()
+        {
+            inkJetPrinter.Close();
+        }
+
+        //タイマー1(印字終了確認と印字回数の更新)
+        private void ConfirmPrintEndTimer_Tick(object sender, EventArgs e)
+        {
+            inkJetPrinter.ConfirmPrintEnd(RedoPrintingMode);
+            PrintingTimes = inkJetPrinter.GetPrintTimes();
+            int rePrintTimes = inkJetPrinter.GetRePrintTimes();
+            if (RedoPrintingMode && rePrintTimes > RedoPrintingTimes)
+            {
+                RedoPrintingTimes = rePrintTimes;
+                RedoPrintingMode = false;
+            }
+        }
+
+        private async Task DoClearTask()
+        {
+            Console.WriteLine("DoClear");
+            await Task.Run(() =>
+            {
+                //印字データ破棄の送信
+                inkJetPrinter.SendClear();
+            });
+
+            //表示データの消去
+            ClearInfos();
+
+            RedoPrintingMode = false;
+
+            PrintingButtonEnabled = false;
+            RedoPrintingButtonEnabled = false;
+            CompleteButtonEnabled = false;
+
+            //印字終了確認処理のタイマーを停止
+            ConfirmPrintEndTimer.Stop();
+
+            //checkbox:枚数入力
+            EditEnable = false;
+
+            //印字終了確認処理の回数をクリア
+            inkJetPrinter.ClearTimerCounterForPrint();
+            //やり直し回数のクリア
+            inkJetPrinter.ClearRePrintTimes();
+
+            isDebug = false;
         }
 
         public async Task OpenBarcodeSerialPort()
@@ -991,6 +1423,32 @@ namespace NewManufactPrinting
         public void RemovePrintingLog(PrintingLog printingLog)
         {
             printingLogConnect.RemovePrintingLog(printingLog);
+        }
+
+        private string MakePrintLot(string lot)
+        {
+            string printLot = string.Empty;
+            if (lot != string.Empty)
+            {
+                printLot = String.Format(" Lot.{0} ", lot);
+            }
+            return printLot;
+        }
+
+        private string MakePrintContent(string model, string lot)
+        {
+            if (model == string.Empty) return string.Empty;
+            string printLot = MakePrintLot(lot);
+            return String.Format("{0} {1} Diatrend Corp.", model, printLot);
+        }
+
+        /// <summary>
+        /// サーバー接続失敗時のメッセージ表示
+        /// </summary>
+        /// <returns></returns>
+        private async Task ShowDisconnectDialog()
+        {
+            await MaterialDialogUtil.ShowMaterialMessageDialog(mainWindow, "Warning", "サーバーへの接続が失敗しました\nネットワーク接続の確認と\nサーバー管理者に確認してください");
         }
     }
 }
