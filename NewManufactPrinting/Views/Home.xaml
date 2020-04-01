@@ -51,10 +51,11 @@
                         </materialDesign:ColorZone>
                         <Grid Grid.Column="1"  Margin="30,5,5,10">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -62,16 +63,21 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBox materialDesign:HintAssist.Hint="受注番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" IsReadOnly="True" Grid.Row="0" Margin="{DynamicResource TextBoxMargin1}" Focusable="False" Text="{Binding OrderNumber}"/>
-                            <TextBox materialDesign:HintAssist.Hint="本数" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  IsReadOnly="True" Grid.Row="1" Margin="{DynamicResource TextBoxMargin1}" Focusable="False" Text="{Binding Quantity}"/>
-                            <TextBox x:Name="model_tbx" materialDesign:HintAssist.Hint="型式" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  Grid.Row="2" Grid.ColumnSpan="3" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox x:Name="lot_tbx" materialDesign:HintAssist.Hint="ロット番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  Grid.Row="2" Grid.Column="3" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Lot, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Grid  Grid.Column="3" Grid.RowSpan="2">
+                            <TextBox Grid.Row="0" materialDesign:HintAssist.Hint="受注番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" IsReadOnly="True" Margin="{DynamicResource TextBoxMargin1}" Focusable="False" Text="{Binding OrderNumber}"/>
+                            <TextBox Grid.Row="1" materialDesign:HintAssist.Hint="本数" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center"  IsReadOnly="True" Margin="{DynamicResource TextBoxMargin1}" Focusable="False" Text="{Binding Quantity}"/>
+                            <TextBox Grid.ColumnSpan="4" Grid.Row="2" materialDesign:HintAssist.Hint="型式" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Grid.Column="4" Grid.Row="2" materialDesign:HintAssist.Hint="ロット番号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="{DynamicResource TextBoxMargin1}" Text="{Binding Lot, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Grid  Grid.Column="4" Grid.RowSpan="2">
                                 <GroupBox Header="板番号">
                                     <TextBlock  VerticalAlignment="Center" Grid.Row="0" FontSize="26" TextAlignment="Center" FontWeight="Bold" Text="{Binding Plate}"/>
                                 </GroupBox>
                             </Grid>
-                            <TextBox materialDesign:HintAssist.Hint="社員名" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="{DynamicResource TextBoxMargin1}" FontSize="13" Focusable="False" Text="{Binding Member}"/>
+                            <TextBox Grid.Column="0" Grid.Row="3" materialDesign:HintAssist.Hint="社員名" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="{DynamicResource TextBoxMargin1}" FontSize="13" Focusable="False" Text="{Binding Member}"/>
+                            <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" materialDesign:HintAssist.Hint="JANコード" Margin="{DynamicResource TextBoxMargin1}"
+                                     Text="0123456789012" FontSize="13" IsReadOnly="True"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                            <DatePicker Grid.Column="4" Grid.Row="3" materialDesign:HintAssist.Hint="ラベル日付"
+                                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="3,0"/>
                         </Grid>
                         <Button x:Name="clear_btn" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
                                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-20,5" 
@@ -98,8 +104,8 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <StackPanel Margin="3" Orientation="Vertical">
-                                <Label Content="印字内容" Padding="0" FontSize="12"/>
-                                <materialDesign:ColorZone Mode="Inverted">
+                                <Label Content="印字内容" Padding="0" FontSize="12" Margin="0,3"/>
+                                <materialDesign:ColorZone Mode="Inverted" CornerRadius="3">
                                     <TextBlock  FontSize="12" TextAlignment="Center" Margin="5" Text="{Binding PrintingContent}"/>
                                 </materialDesign:ColorZone>
                             </StackPanel>
@@ -111,14 +117,17 @@
                                 </materialDesign:Badged>
                                 <materialDesign:Badged BadgeColorZoneMode="PrimaryLight" Margin="10" Badge="{Binding RedoPrintingTimes}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                                     <Button FontSize="{DynamicResource ButtonFontSize1}" Focusable="False"
-                                            Height="48" Content="{Binding RedoPrintingButtonText}" Width="120" IsEnabled="{Binding RedoPrintingButtonEnabled}" 
+                                            Height="48" Width="120" IsEnabled="{Binding RedoPrintingButtonEnabled}" 
                                             Command="{Binding RedoPrint}">
                                         <Button.Style>
                                             <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+                                                <Setter Property="Content" Value="やり直し"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding RedoPrintingMode, Source={StaticResource mwvm}}" Value="True">
                                                         <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryHueLightBrush}"/>
                                                         <Setter Property="Foreground" Value="{StaticResource PrimaryHueLightForegroundBrush}"/>
+                                                        <Setter Property="Content" Value="やり直し中"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -152,8 +161,20 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding StopWatchText}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <StackPanel Grid.Column="1"  Orientation="Vertical">
-                            <Button Content="{Binding StartStopButtonText}" Focusable="False"  HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchStartStop, Mode=OneWay}" Width="84" />
-                            <Button Content="RESET"  Focusable="False" HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchReset, Mode=OneWay}" Width="84" />
+                            <Button Focusable="False"  HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" 
+                                    Command="{Binding StopWatchStartStop, Mode=OneWay}" >
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                                        <Setter Property="Content" Value="START"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRunningStopWatch, Source={StaticResource mwvm}}" Value="True">
+                                                <Setter Property="Content" Value="STOP"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Content="RESET"  Focusable="False" HorizontalAlignment="Stretch" FontSize="{DynamicResource ButtonFontSize1}" Margin="5" Height="Auto" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding StopWatchReset, Mode=OneWay}" />
                         </StackPanel>
                     </Grid>
                 </Grid>

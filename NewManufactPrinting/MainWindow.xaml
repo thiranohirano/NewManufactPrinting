@@ -50,6 +50,8 @@
         </DataTemplate>
 
         <converter:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter"/>
+        <SolidColorBrush x:Key="ConnetErrorBrush" Color="Red"/>
+        <SolidColorBrush x:Key="ConnetSuccessBrush" Color="LightGreen"/>
     </Controls:MetroWindow.Resources>
     <Controls:MetroWindow.DataContext>
         <StaticResource ResourceKey="mwvm"/>
@@ -65,7 +67,7 @@
             </materialDesign:PopupBox>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <materialDesign:DialogHost IsOpen="{Binding DialogIsOpen}">
+    <materialDesign:DialogHost IsOpen="{Binding DialogIsOpen}" Style="{StaticResource MaterialDesignEmbeddedQuickDialogHost}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -150,19 +152,63 @@
                     <materialDesign:PackIcon Kind="ServerNetwork"/>
                 </StatusBarItem>
                 <StatusBarItem >
-                    <TextBlock Text="{Binding ConnectState}" Foreground="{Binding ConnectStateColor}"/>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource ConnetErrorBrush}"/>
+                                <Setter Property="Text" Value="接続エラー"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsConnect, Source={StaticResource mwvm}}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource ConnetSuccessBrush}"/>
+                                        <Setter Property="Text" Value="接続成功"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StatusBarItem>
                 <Separator/>
                 <StatusBarItem Content="InkJet:"/>
                 <StatusBarItem>
-                    <TextBlock Text="{Binding InkJetConnectState}" Foreground="{Binding InkJetConnectStateColor}"/>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource ConnetErrorBrush}"/>
+                                <Setter Property="Text" Value="接続エラー"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding InkJetIsConnect, Source={StaticResource mwvm}}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource ConnetSuccessBrush}"/>
+                                        <Setter Property="Text" Value="接続成功"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StatusBarItem>
+                <Separator/>
+                <StatusBarItem Content="TECPrinter:"/>
+                <StatusBarItem>
+                    <TextBlock ToolTip="{Binding TecPrinterStatus}">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource ConnetErrorBrush}"/>
+                                <Setter Property="Text" Value="接続エラー"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TecPrinterIsConnect, Source={StaticResource mwvm}}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource ConnetSuccessBrush}"/>
+                                        <Setter Property="Text" Value="接続成功"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StatusBarItem>
                 <Separator/>
                 <StatusBarItem Content="Barcode:" />
                 <StatusBarItem Width="50" Content="{Binding SelectedBarcodeComPort}" HorizontalAlignment="Left" />
-                <Separator/>
-                <StatusBarItem Content="LabelPrinter:"/>
-                <StatusBarItem Width="50" Content="{Binding SelectedLabelPrinterComPort}" HorizontalAlignment="Left"/>
+                <Separator Visibility="Collapsed"/>
+                <StatusBarItem Content="LabelPrinter:" Visibility="Collapsed"/>
+                <StatusBarItem Width="50" Content="{Binding SelectedLabelPrinterComPort}" HorizontalAlignment="Left" Visibility="Collapsed"/>
             </StatusBar>
 
         </Grid>

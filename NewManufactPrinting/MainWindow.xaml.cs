@@ -99,25 +99,21 @@ namespace NewManufactPrinting
 #if !DEBUG
             await mwvm.ConnectPrinter();
 #endif
+            await mwvm.OpenTecPrinter();
 
             mwvm.GetPortName();
             await mwvm.OpenBarcodeSerialPort();
             mwvm.SelectBarcodeComPort = mwvm.SelectedBarcodeComPort;
-            await mwvm.OpenLabelPrinterSerialPort();
-            mwvm.SelectLabelPrinterComPort = mwvm.SelectedLabelPrinterComPort;
+            //await mwvm.OpenLabelPrinterSerialPort();
+            //mwvm.SelectLabelPrinterComPort = mwvm.SelectedLabelPrinterComPort;
         }
 
-        private void MainMetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void MainMetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string ipAddress = Properties.Settings.Default.IpAddress;
-            if (ipAddress == string.Empty)
-            {
-                ipAddress = "NONE";
-            }
-            Properties.Settings.Default.IpAddress = ipAddress;
             mwvm.CloseBarcodeSerialPort();
-            mwvm.CloseLabelPrinterSerialPort();
+            //mwvm.CloseLabelPrinterSerialPort();
             mwvm.ClosePrinter();
+            await mwvm.CloseTecPrinter();
         }
         /// <summary>
         /// 再接続メニューボタンのクリック
