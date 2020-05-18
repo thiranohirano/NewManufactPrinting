@@ -33,6 +33,16 @@ namespace NewManufactPrinting
             return intIssueCnt;
         }
 
+        public void SetIssueCount(int count)
+        {
+            intIssueCnt = count;
+        }
+
+        public void ResetIssueCount()
+        {
+            intIssueCnt = 0;
+        }
+
         public long Result()
         {
             return lngResult;
@@ -61,7 +71,7 @@ namespace NewManufactPrinting
                 ClosePortWaitingClearBuffer();
             }
 
-            if (ConfirmPing(ipAddress))
+            if (!ConfirmPing(ipAddress))
             {
                 strStatus = "Pingエラー";
                 return false;
@@ -255,9 +265,9 @@ namespace NewManufactPrinting
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

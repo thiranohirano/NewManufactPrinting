@@ -93,6 +93,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2F141EB3D99EBCD0FE4CD24F698F9139"
+        "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2F66D499E35B8AB199EB83C30FC7A7CD"
         "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
         "MsmSig" = "8:_UNDEFINED"
@@ -111,6 +117,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_40DD62B71AFE3834948D45135A0C766A"
+        "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_50AC0E6DEE5063421F7CB1D56839E586"
+        "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_50AC0E6DEE5063421F7CB1D56839E586"
+        "OwnerKey" = "8:_40DD62B71AFE3834948D45135A0C766A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_50E9E446AC400CB90BC5360C0EC7908E"
         "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
         "MsmSig" = "8:_UNDEFINED"
@@ -118,13 +142,13 @@
         "Entry"
         {
         "MsmKey" = "8:_50E9E446AC400CB90BC5360C0EC7908E"
-        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_50E9E446AC400CB90BC5360C0EC7908E"
-        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
+        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,7 +184,7 @@
         "Entry"
         {
         "MsmKey" = "8:_B50DFEB05EE0ADB639374DDF4B36A371"
-        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
+        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -172,12 +196,18 @@
         "Entry"
         {
         "MsmKey" = "8:_B50DFEB05EE0ADB639374DDF4B36A371"
-        "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_B83AAF9342BBC782431D2E927FC23CC6"
+        "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BC12923666E56CE141574D58A020E15A"
         "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -238,7 +268,7 @@
         "Entry"
         {
         "MsmKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
-        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
+        "OwnerKey" = "8:_50AC0E6DEE5063421F7CB1D56839E586"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -255,8 +285,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_244C65B261D5DA5C5E82D92B911F0DDE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
+        "OwnerKey" = "8:_40DD62B71AFE3834948D45135A0C766A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A8937546F2684FFE87808C9176B05BDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BC12923666E56CE141574D58A020E15A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -346,6 +394,18 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_40DD62B71AFE3834948D45135A0C766A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_50AC0E6DEE5063421F7CB1D56839E586"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_EB983E83433E2EDC15353CD35DC74459"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -371,6 +431,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_79651AA8514EB5211162454A236A007A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2F141EB3D99EBCD0FE4CD24F698F9139"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -622,7 +688,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManufactApiClient, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ManufactApiClient, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_244C65B261D5DA5C5E82D92B911F0DDE"
@@ -632,6 +698,37 @@
                     }
                 }
             "SourcePath" = "8:ManufactApiClient.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2F141EB3D99EBCD0FE4CD24F698F9139"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:TEC.BCP.Windows.Components.BCPControl, Version=2.0.0.16, Culture=neutral, PublicKeyToken=a02f53042e733813, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_2F141EB3D99EBCD0FE4CD24F698F9139"
+                    {
+                    "Name" = "8:TEC.BCP.Windows.Components.BCPControl.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:TEC.BCP.Windows.Components.BCPControl.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
@@ -711,6 +808,68 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_40DD62B71AFE3834948D45135A0C766A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:JanCodeApiConnect, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_40DD62B71AFE3834948D45135A0C766A"
+                    {
+                    "Name" = "8:JanCodeApiConnect.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:JanCodeApiConnect.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50AC0E6DEE5063421F7CB1D56839E586"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:JanCodeApiClient, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_50AC0E6DEE5063421F7CB1D56839E586"
+                    {
+                    "Name" = "8:JanCodeApiClient.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:JanCodeApiClient.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50E9E446AC400CB90BC5360C0EC7908E"
             {
             "AssemblyRegister" = "3:1"
@@ -746,7 +905,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManufactApiConnect, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ManufactApiConnect, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_78EEF635836E6A0EA56BB337B5ECAC1D"
@@ -911,6 +1070,37 @@
                     }
                 }
             "SourcePath" = "8:MaterialDialog.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BC12923666E56CE141574D58A020E15A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:TecLabelPrinter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BC12923666E56CE141574D58A020E15A"
+                    {
+                    "Name" = "8:TecLabelPrinter.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:TecLabelPrinter.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"
@@ -1234,15 +1424,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NewManufactPrinting"
-        "ProductCode" = "8:{0E5614B9-4E2F-4552-B9AC-C437C9889FB8}"
-        "PackageCode" = "8:{98182611-A316-4968-AAF0-1DCD1A4ADF2D}"
+        "ProductCode" = "8:{BDD71E1D-1688-4B89-A3DD-B633237A9FBB}"
+        "PackageCode" = "8:{2134A409-725C-4B1D-AE86-29CB3058DA4F}"
         "UpgradeCode" = "8:{7C7382E6-A603-4FED-98AD-A0488B638A5F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.11"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Diatrend"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1753,41 +1943,6 @@
                             }
                         }
                     }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ACF5F5CB90684938A59077E3513862A8"
-                    {
-                    "Sequence" = "3:200"
-                    "DisplayName" = "8:インストール フォルダー"
-                    "UseDynamicProperties" = "11:TRUE"
-                    "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
-                        "Properties"
-                        {
-                            "BannerBitmap"
-                            {
-                            "Name" = "8:BannerBitmap"
-                            "DisplayName" = "8:#1001"
-                            "Description" = "8:#1101"
-                            "Type" = "3:8"
-                            "ContextData" = "8:Bitmap"
-                            "Attributes" = "3:4"
-                            "Setting" = "3:1"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                            "InstallAllUsersVisible"
-                            {
-                            "Name" = "8:InstallAllUsersVisible"
-                            "DisplayName" = "8:#1059"
-                            "Description" = "8:#1159"
-                            "Type" = "3:5"
-                            "ContextData" = "8:1;True=1;False=0"
-                            "Attributes" = "3:0"
-                            "Setting" = "3:0"
-                            "Value" = "3:0"
-                            "DefaultValue" = "3:1"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -1798,7 +1953,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A8937546F2684FFE87808C9176B05BDC"
             {
-            "SourcePath" = "8:..\\NewManufactPrinting\\obj\\Debug\\NewManufactPrinting.exe"
+            "SourcePath" = "8:..\\NewManufactPrinting\\obj\\Release\\NewManufactPrinting.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F2BCFB81600F46D289E3758618FE4C11"

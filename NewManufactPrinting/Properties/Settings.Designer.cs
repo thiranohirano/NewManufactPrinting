@@ -142,5 +142,17 @@ namespace NewManufactPrinting.Properties {
                 this["TecPort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CutPosition {
+            get {
+                return ((int)(this["CutPosition"]));
+            }
+            set {
+                this["CutPosition"] = value;
+            }
+        }
     }
 }

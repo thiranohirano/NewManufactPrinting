@@ -119,9 +119,9 @@
                                     <views:Settings x:Name="settings_view"/>
                                 </menuItems:HamburgerMenuIconItem.Tag>
                             </menuItems:HamburgerMenuIconItem>
-                            <menuItems:HamburgerMenuIconItem Label="About" Icon="{materialDesign:PackIcon Kind=Help,Size=22}" >
+                            <menuItems:HamburgerMenuIconItem Label="Help" Icon="{materialDesign:PackIcon Kind=Help,Size=22}" >
                                 <menuItems:HamburgerMenuIconItem.Tag>
-                                    <TextBlock Text="About" />
+                                    <views:Help x:Name="help_view"/>
                                 </menuItems:HamburgerMenuIconItem.Tag>
                             </menuItems:HamburgerMenuIconItem>
                         </Controls:HamburgerMenuItemCollection>

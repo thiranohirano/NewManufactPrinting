@@ -99,7 +99,12 @@ namespace NewManufactPrinting
 #if !DEBUG
             await mwvm.ConnectPrinter();
 #endif
-            await mwvm.OpenTecPrinter();
+            bool success = await mwvm.OpenTecPrinter();
+            //await mwvm.CloseTecPrinterAsync();
+            if (!success)
+            {
+                await MaterialDialogUtil.ShowMaterialMessageDialog(this, "Warning", "TECラベルプリンターに接続できませんでした");
+            }
 
             mwvm.GetPortName();
             await mwvm.OpenBarcodeSerialPort();
@@ -108,12 +113,13 @@ namespace NewManufactPrinting
             //mwvm.SelectLabelPrinterComPort = mwvm.SelectedLabelPrinterComPort;
         }
 
-        private async void MainMetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainMetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             mwvm.CloseBarcodeSerialPort();
             //mwvm.CloseLabelPrinterSerialPort();
             mwvm.ClosePrinter();
-            await mwvm.CloseTecPrinter();
+
+            mwvm.CloseTecPrinter();
         }
         /// <summary>
         /// 再接続メニューボタンのクリック

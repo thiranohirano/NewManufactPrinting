@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:NewManufactPrinting.Views"
-             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="NewManufactPrinting.Views.Settings"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" 
+             x:Class="NewManufactPrinting.Views.Settings"
              mc:Ignorable="d" 
              TextElement.FontFamily="Meiryo UI"
              TextElement.FontSize="12"
@@ -25,7 +27,7 @@
         <Binding Source="{StaticResource mwvm}"/>
     </UserControl.DataContext>
     <Viewbox Stretch="Uniform">
-        <Grid Height="360" Width="720">
+        <Grid Height="400" Width="800">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
@@ -34,7 +36,7 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <GroupBox Header="インクジェットプリンター設定" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="5">
@@ -45,8 +47,10 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox materialDesign:HintAssist.Hint="IPアドレス" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  Text="{Binding IpAddress}" Margin="3"/>
-                                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="ポート" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  Text="{Binding Port}" Margin="3"/>
+                                <TextBox materialDesign:HintAssist.Hint="IPアドレス" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Text="{Binding IpAddress, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="ポート" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                             </Grid>
                             <Button Content="適用" HorizontalAlignment="Right" Focusable="False" Margin="{DynamicResource ButtonMargin1}" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding InkJetPrinterSettingApply}"/>
                         </StackPanel>
@@ -61,12 +65,28 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox materialDesign:HintAssist.Hint="IPアドレス" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  Text="{Binding TecIpAddress}" Margin="3"/>
-                                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="ポート" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  Text="{Binding TecPort}" Margin="3"/>
+                                <TextBox materialDesign:HintAssist.Hint="IPアドレス" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Text="{Binding TecIpAddress, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="ポート" TextWrapping="Wrap" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Text="{Binding TecPort, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                            </Grid>
+                            <Grid Margin="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="カット位置:" VerticalAlignment="Center"/>
+                                <Controls:NumericUpDown Grid.Column="1" Width="100" TextAlignment="Right"
+                                                        Maximum="500" Minimum="-500" NumericInputMode="Numbers"
+                                                        Value="{Binding CutPosition}"/>
+                                <TextBlock Grid.Column="2" Text="x 0.1mm" VerticalAlignment="Bottom"/>
                             </Grid>
                             <Button Content="適用" HorizontalAlignment="Right" Focusable="False" Margin="{DynamicResource ButtonMargin1}" 
                                     Style="{StaticResource MaterialDesignRaisedAccentButton}" 
                                     Command="{Binding TecPrinterSettingApply}"/>
+                            <Button Content="ラベルサイズ送信" HorizontalAlignment="Center" Focusable="False" 
+                                    Command="{Binding TecPrinterLabelSizeSend}"/>
                         </StackPanel>
                     </Grid>
                 </GroupBox>
